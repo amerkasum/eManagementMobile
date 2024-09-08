@@ -78,7 +78,7 @@ class _EventsWidgetState extends State<EventsPage> {
   Widget build(BuildContext context) {
     final isDesktop = !kIsWeb && (Platform.isWindows || Platform.isMacOS || Platform.isLinux);
     return Scaffold(
-      appBar: eManagementTopAppBarPage(),
+      appBar: eManagementTopAppBarPage(title: "Events"),
       bottomNavigationBar: eManagementBottomNavigationBar(),
       body: Column(
         children: [
@@ -188,6 +188,9 @@ class _EventsWidgetState extends State<EventsPage> {
                               width: 120,
                               height: 200,
                               fit: BoxFit.cover,
+                              errorBuilder:  (context, error, stacTrace) {
+                                return Image.asset("assets/default.jpg");
+                              },
                             ),
                           ),
                           Padding(
@@ -210,12 +213,21 @@ class _EventsWidgetState extends State<EventsPage> {
                               style: TextStyle(fontWeight: FontWeight.w600, color: _getStatusColor(event.eventStatusName), letterSpacing: 1.2, fontSize: 12),
                             ),
                           ),
-                          Padding(
-                            padding: const EdgeInsetsDirectional.fromSTEB(380, 75, 0, 0),
-                            child: Text(
-                              event.startDateFormatted,
-                              style: const TextStyle(fontWeight: FontWeight.w600, color: Colors.grey, fontSize: 12),
-                            ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end, // Aligns the text to the right
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(5), // Adds 5px padding
+                                child: Text(
+                                  event.startDateFormatted,
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.grey,
+                                    fontSize: 12,
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ],
                       ),

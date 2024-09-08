@@ -98,7 +98,7 @@ class _TaskDetailsState extends State<TaskDetails> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: eManagementTopAppBarPage(),
+      appBar: eManagementTopAppBarPage(title: "Task Details"),
       body: FutureBuilder<TaskDetailsDto>(
         future: data,
         builder: (context, snapshot) {

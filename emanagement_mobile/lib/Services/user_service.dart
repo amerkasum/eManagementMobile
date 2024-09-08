@@ -1,5 +1,6 @@
 import 'package:emanagement_mobile/Context/api_handler.dart';
 import 'package:emanagement_mobile/Models/Desktop/users_desktop_dto.dart';
+import 'package:emanagement_mobile/Models/Helpers/user_basic_dto.dart';
 import 'package:emanagement_mobile/Models/user_session.dart';
 import 'package:emanagement_mobile/Models/Desktop/user_view_model.dart';
 import 'package:emanagement_mobile/Models/users_dto.dart';
@@ -35,8 +36,11 @@ class UserService {
         'api/Users/SignIn?username=$username&password=$password'
       );
 
-      // Save the userId
-      UserSession().userId = response['userId']; // Save the userId in UserSession
+      UserSession().userId = response['userId'];
+      UserSession().fullName = response['fullName'];
+      UserSession().imageUrl = response['imageUrl'];
+      UserSession().role = response['role'];
+
 
       // Navigate to EventsPage
       Navigator.pushReplacement(
@@ -68,6 +72,19 @@ class UserService {
       }
     } catch (e) {
       print("An error occurred while creating the user: $e");
+    }
+  }
+
+  Future<UserBasicDto> getRecommend(int userId) async {
+    try {
+      final response = await apiHandler.getRequest('api/Users/GetRecommendedUser?userId=$userId');
+      
+      final jsonResponse = response as Map<String, dynamic>;
+      
+      return UserBasicDto.fromJson(jsonResponse);
+    } catch (e) {
+      // Handle errors if necessary
+      throw Exception('Failed to load recommended user: $e');
     }
   }
 }

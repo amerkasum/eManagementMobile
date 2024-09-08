@@ -99,7 +99,7 @@ class _EventFormState extends State<EventForm> {
     final bool isDesktop = MediaQuery.of(context).size.width > 600;
 
     return Scaffold(
-      appBar: eManagementTopAppBarPage(),
+      appBar: eManagementTopAppBarPage(title: "Add Event"),
       bottomNavigationBar: eManagementBottomNavigationBar(),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(32.0),

@@ -29,7 +29,7 @@ class LoginPage extends StatelessWidget {
               const SizedBox(height: 50),
 
               // some message
-              isDesktop ?  const Text("Administrator Panel",
+              isDesktop ?  const Text("Sign In - Administrator Panel",
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ) :
               const Text("Sign In",

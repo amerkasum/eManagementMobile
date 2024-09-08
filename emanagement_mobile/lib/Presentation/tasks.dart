@@ -101,7 +101,7 @@ class _TasksWidgetState extends State<TasksPage> {
   Widget build(BuildContext context) {
     final isDesktop = !kIsWeb && (Platform.isWindows || Platform.isMacOS || Platform.isLinux);
     return Scaffold(
-      appBar: eManagementTopAppBarPage(),
+      appBar: eManagementTopAppBarPage(title: "Tasks"),
       bottomNavigationBar: eManagementBottomNavigationBar(),
       body: Column(
         children: [

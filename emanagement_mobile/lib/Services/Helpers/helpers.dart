@@ -92,4 +92,15 @@ class ApiService {
       throw Exception('Failed to load positions');
     }
   }
+
+  Future<List<SelectListHelper>> fetchAbsenceTypes() async {
+    final response = await http.get(Uri.parse('$apiUrl/api/AbsenceType/GetAll'));
+
+    if (response.statusCode == 200) {
+      List jsonResponse = json.decode(response.body);
+      return jsonResponse.map((data) => SelectListHelper.fromJson(data)).toList();
+    } else {
+      throw Exception('Failed to load positions');
+    }
+  }
 }

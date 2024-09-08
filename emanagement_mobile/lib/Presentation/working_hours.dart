@@ -33,7 +33,7 @@ Map<String, String> dates = {};
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: eManagementTopAppBarPage(),
+      appBar: eManagementTopAppBarPage(title: "Working Hours"),
       body: Column(
           children: <Widget>[
             Expanded(

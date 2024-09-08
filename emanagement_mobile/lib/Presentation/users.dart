@@ -57,7 +57,7 @@ class _UsersWidgetState extends State<UsersPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: eManagementTopAppBarPage(),
+      appBar: eManagementTopAppBarPage(title: "Users"),
       bottomNavigationBar: eManagementBottomNavigationBar(),
       body: Column(
         children: [
@@ -122,6 +122,9 @@ class _UsersWidgetState extends State<UsersPage> {
                               child: Image(
                                 image: AssetImage(filteredData[index].imageUrl),
                                 fit: BoxFit.cover,
+                                errorBuilder:  (context, error, stacTrace) {
+                                  return Image.asset("assets/user.jpg");
+                                },
                               ),
                             ),
                           ),
@@ -159,8 +162,8 @@ class _UsersWidgetState extends State<UsersPage> {
                               children: [
                                 Text(
                                   filteredData[index].availability,
-                                  style: const TextStyle(
-                                      color: Colors.green,
+                                  style: TextStyle(
+                                      color: filteredData[index].availability == "Available" ? Colors.green : Colors.red,
                                       fontSize: 12,
                                       fontWeight: FontWeight.bold),
                                 ),

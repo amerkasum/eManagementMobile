@@ -53,7 +53,7 @@ class _EventDetailsPageWidgetState extends State<EventDetailsPageWidget> {
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
-        appBar: eManagementTopAppBarPage(),
+        appBar: eManagementTopAppBarPage(title: "Event Details"),
         body: SafeArea(
           child: Padding(
             padding: const EdgeInsetsDirectional.fromSTEB(10, 10, 10, 10),

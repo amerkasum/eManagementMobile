@@ -28,46 +28,54 @@ class _MultiSelectDialogState extends State<MultiSelectDialog> {
     _tempSelectedUsers = List.from(widget.selectedUsers);
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return AlertDialog(
-      title: Text('Select Users'),
-      content: SingleChildScrollView(
-        child: ListBody(
-          children: widget.users.map((user) {
-            return CheckboxListTile(
-              value: _tempSelectedUsers.contains(user),
-              title: Text(user.name),
-              controlAffinity: ListTileControlAffinity.leading,
-              onChanged: (bool? value) {
-                setState(() {
-                  if (value == true) {
-                    _tempSelectedUsers.add(user);
-                  } else {
-                    _tempSelectedUsers.remove(user);
-                  }
-                });
-              },
-            );
-          }).toList(),
-        ),
+@override
+Widget build(BuildContext context) {
+  return AlertDialog(
+    title: const Text('Select Users'),
+    content: SingleChildScrollView(
+      child: ListBody(
+        children: widget.users.map((user) {
+          // Debug output
+          print('User ID: ${user.id}, User Name: ${user.name}');
+          
+          return CheckboxListTile(
+            value: _tempSelectedUsers.contains(user),
+            title: Text(
+              user.name,
+              style: TextStyle(
+                color: user.id == 2 ? Colors.green : Colors.black,
+              ),
+            ),
+            controlAffinity: ListTileControlAffinity.leading,
+            onChanged: (bool? value) {
+              setState(() {
+                if (value == true) {
+                  _tempSelectedUsers.add(user);
+                } else {
+                  _tempSelectedUsers.remove(user);
+                }
+              });
+            },
+          );
+        }).toList(),
       ),
-      actions: <Widget>[
-        ElevatedButton(
-          child: Text('Cancel'),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-        ElevatedButton(
-          child: Text('OK'),
-          onPressed: () {
-            Navigator.pop(context, _tempSelectedUsers);
-          },
-        ),
-      ],
-    );
-  }
+    ),
+    actions: <Widget>[
+      ElevatedButton(
+        child: const Text('Cancel'),
+        onPressed: () {
+          Navigator.pop(context);
+        },
+      ),
+      ElevatedButton(
+        child: const Text('OK'),
+        onPressed: () {
+          Navigator.pop(context, _tempSelectedUsers);
+        },
+      ),
+    ],
+  );
+}
 }
 
 class TaskForm extends StatefulWidget {
@@ -147,7 +155,7 @@ class _TaskFormState extends State<TaskForm> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: eManagementTopAppBarPage(),
+      appBar: eManagementTopAppBarPage(title: "Task Form"),
       bottomNavigationBar: eManagementBottomNavigationBar(),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -348,40 +356,5 @@ class _TaskFormState extends State<TaskForm> {
               ),
       ),
     );
-  }
-}
-
-class ApiService {
-  Future<List<SelectListHelper>> fetchUsers() async {
-    final response = await http.get(Uri.parse('https://localhost:5001/api/Users'));
-
-    if (response.statusCode == 200) {
-      List<dynamic> data = json.decode(response.body);
-      return data.map((json) => SelectListHelper.fromJson(json)).toList();
-    } else {
-      throw Exception('Failed to load users');
-    }
-  }
-
-  Future<List<SelectListHelper>> fetchTaskPriosities() async {
-    final response = await http.get(Uri.parse('https://localhost:5001/api/TaskPriorities'));
-
-    if (response.statusCode == 200) {
-      List<dynamic> data = json.decode(response.body);
-      return data.map((json) => SelectListHelper.fromJson(json)).toList();
-    } else {
-      throw Exception('Failed to load task priorities');
-    }
-  }
-
-  Future<List<SelectListHelper>> fetchCities() async {
-    final response = await http.get(Uri.parse('https://localhost:5001/api/Cities'));
-
-    if (response.statusCode == 200) {
-      List<dynamic> data = json.decode(response.body);
-      return data.map((json) => SelectListHelper.fromJson(json)).toList();
-    } else {
-      throw Exception('Failed to load cities');
-    }
   }
 }

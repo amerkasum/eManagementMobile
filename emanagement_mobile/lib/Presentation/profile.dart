@@ -42,7 +42,7 @@ class _ProfilePageWidgetState extends State<ProfilePage> {
     final isDesktop = !kIsWeb && (Platform.isWindows || Platform.isMacOS || Platform.isLinux);
 
     return Scaffold(
-      appBar: eManagementTopAppBarPage(),
+      appBar: eManagementTopAppBarPage(title: "Profile"),
       bottomNavigationBar: eManagementBottomNavigationBar(),
       body: FutureBuilder<UserProfileDto>(
         future: data,
@@ -74,6 +74,9 @@ class _ProfilePageWidgetState extends State<ProfilePage> {
                             child: Image(
                               image: AssetImage(userProfile.imageUrl),
                               fit: BoxFit.cover,
+                              errorBuilder:  (context, error, stacTrace) {
+                                return Image.asset("assets/user.jpg");
+                              },
                             ),
                           ),
                           const SizedBox(height: 50),
@@ -136,12 +139,16 @@ class _ProfilePageWidgetState extends State<ProfilePage> {
                             shape: const Border(bottom: BorderSide(color: Colors.black12)),
                           ),
                           ListTile(
-                            leading: const Icon(Icons.circle),
+                            leading: Icon(
+                              Icons.circle,
+                              color: userProfile.availability == 'Available' ? Colors.green : Colors.red, 
+                            ),
                             title: Text(
                               userProfile.availability,
-                              style: const TextStyle(
+                              style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 18,
+                                color: userProfile.availability == 'Available' ? Colors.green : Colors.red, 
                               ),
                             ),
                             subtitle: const Text('Availability'),

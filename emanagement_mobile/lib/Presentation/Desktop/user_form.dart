@@ -114,7 +114,7 @@ class _UserFormState extends State<UserForm> {
     final double inputWidth = isDesktop ? 500 : double.infinity;
 
     return Scaffold(
-      appBar: eManagementTopAppBarPage(),
+      appBar: eManagementTopAppBarPage(title: "Add Employee"),
       bottomNavigationBar: eManagementBottomNavigationBar(),
       body: SingleChildScrollView(
         child: Center(
@@ -157,7 +157,7 @@ class _UserFormState extends State<UserForm> {
                       SizedBox(width: isDesktop ? 16 : 0),
                       Expanded(
                         child: TextFormField(
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             labelText: 'First Name',
                             border: OutlineInputBorder(),
                             contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 20),
@@ -174,7 +174,7 @@ class _UserFormState extends State<UserForm> {
                       SizedBox(width: isDesktop ? 16 : 0),
                       Expanded(
                         child: TextFormField(
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             labelText: 'Last Name',
                             border: OutlineInputBorder(),
                             contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 20),
@@ -190,12 +190,12 @@ class _UserFormState extends State<UserForm> {
                       ),
                     ],
                   ),
-                  SizedBox(height: 16),
+                  const SizedBox(height: 16),
                   Row(
                     children: [
                       Expanded(
                         child: TextFormField(
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             labelText: 'Email',
                             border: OutlineInputBorder(),
                             contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 20),
@@ -218,7 +218,7 @@ class _UserFormState extends State<UserForm> {
                           onTap: () => _selectDate(context, isDateOfBirth: true),
                           child: AbsorbPointer(
                             child: TextFormField(
-                              decoration: InputDecoration(
+                              decoration: const InputDecoration(
                                 labelText: 'Date of Birth',
                                 border: OutlineInputBorder(),
                                 contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 20),
@@ -240,11 +240,11 @@ class _UserFormState extends State<UserForm> {
                       ),
                     ],
                   ),
-                  SizedBox(height: 16),
+                  const SizedBox(height: 16),
                   SizedBox(
                     width: inputWidth,
                     child: TextFormField(
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         labelText: 'Password',
                         border: OutlineInputBorder(),
                         contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 20),
@@ -259,11 +259,11 @@ class _UserFormState extends State<UserForm> {
                       },
                     ),
                   ),
-                  SizedBox(height: 16),
+                  const SizedBox(height: 16),
                   SizedBox(
                     width: inputWidth,
                     child: TextFormField(
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         labelText: 'Phone Number',
                         border: OutlineInputBorder(),
                         contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 20),
@@ -277,12 +277,12 @@ class _UserFormState extends State<UserForm> {
                       },
                     ),
                   ),
-                  SizedBox(height: 16),
+                  const SizedBox(height: 16),
                   Row(
                     children: [
                       Expanded(
                         child: DropdownButtonFormField<int>(
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             labelText: 'Role',
                             border: OutlineInputBorder(),
                             contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 20),
@@ -307,7 +307,7 @@ class _UserFormState extends State<UserForm> {
                       SizedBox(width: isDesktop ? 16 : 0),
                       Expanded(
                         child: DropdownButtonFormField<int>(
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             labelText: 'Position',
                             border: OutlineInputBorder(),
                             contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 20),
@@ -331,12 +331,12 @@ class _UserFormState extends State<UserForm> {
                       ),
                     ],
                   ),
-                  SizedBox(height: 16),
+                  const SizedBox(height: 16),
                   Row(
                     children: [
                       Expanded(
                         child: DropdownButtonFormField<int>(
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             labelText: 'City',
                             border: OutlineInputBorder(),
                             contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 20),
@@ -361,7 +361,7 @@ class _UserFormState extends State<UserForm> {
                       SizedBox(width: isDesktop ? 16 : 0),
                       Expanded(
                         child: DropdownButtonFormField<int>(
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             labelText: 'Contract Type',
                             border: OutlineInputBorder(),
                             contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 20),
@@ -382,6 +382,50 @@ class _UserFormState extends State<UserForm> {
                           },
                         ),
                       ),
+                      SizedBox(width: isDesktop ? 16 : 0),
+                      Expanded(
+                        child: GestureDetector(
+                          onTap: () => _selectDate(context, isDateOfBirth: false),
+                          child: AbsorbPointer(
+                            child: TextFormField(
+                              decoration: const InputDecoration(
+                                labelText: 'Contract Expiration Date',
+                                border: OutlineInputBorder(),
+                                contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+                              ),
+                              controller: TextEditingController(
+                                text: userViewModel.contractExpireDate != null
+                                    ? '${userViewModel.contractExpireDate!.toLocal().toString().split(' ')[0]}'
+                                    : '',
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(width: isDesktop ? 16 : 0),
+                      Expanded(
+                        child: DropdownButtonFormField<int>(
+                          decoration: const InputDecoration(
+                            labelText: 'Shift',
+                            border: OutlineInputBorder(),
+                            contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+                          ),
+                          value: userViewModel.shiftId,
+                          items: shifts
+                              .map(
+                                (shift) => DropdownMenuItem<int>(
+                                  value: shift.id,
+                                  child: Text(shift.name),
+                                ),
+                              )
+                              .toList(),
+                          onChanged: (value) {
+                            setState(() {
+                              userViewModel.shiftId = value;
+                            });
+                          },
+                        ),
+                      ),
                     ],
                   ),
                   const SizedBox(height: 16),
@@ -391,10 +435,10 @@ class _UserFormState extends State<UserForm> {
                       onPressed: _submitForm,
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.black,
-                        textStyle: const TextStyle(color: Colors.white),
+                        foregroundColor: Colors.white,
                         padding: const EdgeInsets.symmetric(vertical: 16),
                       ),
-                      child: Text('Submit'),
+                      child: const Text('Submit'),
                     ),
                   ),
                   const SizedBox(height: 16),

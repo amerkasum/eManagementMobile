@@ -1,7 +1,9 @@
 import 'package:emanagement_mobile/Components/bottom_navigation_bar.dart';
 import 'package:emanagement_mobile/Models/Helpers/select_list_helper.dart';
+import 'package:emanagement_mobile/Models/Helpers/user_basic_dto.dart';
 import 'package:emanagement_mobile/Presentation/tasks.dart';
 import 'package:emanagement_mobile/Services/Helpers/helpers.dart';
+import 'package:emanagement_mobile/Services/user_service.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -21,6 +23,9 @@ class MultiSelectDialog extends StatefulWidget {
 
 class _MultiSelectDialogState extends State<MultiSelectDialog> {
   late List<SelectListHelper> _tempSelectedUsers;
+  bool isChanged = false;
+  UserService userService = UserService();
+  UserBasicDto? _recommendedUser;
 
   @override
   void initState() {
@@ -28,28 +33,77 @@ class _MultiSelectDialogState extends State<MultiSelectDialog> {
     _tempSelectedUsers = List.from(widget.selectedUsers);
   }
 
+  Future<void> fetchRecommendedUser(int userId) async {
+    try {
+      final recommendedUser = await userService.getRecommend(userId);
+      setState(() {
+        _recommendedUser = recommendedUser; // Update with fetched user data
+        isChanged = _recommendedUser != null; // Set isChanged to true only if a valid user is returned
+      });
+    } catch (e) {
+      print('Failed to fetch recommended user: $e');
+      setState(() {
+        _recommendedUser = null; // Reset the recommended user if an error occurs
+        isChanged = false; // Ensure isChanged is false
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text('Select Users'),
+      title: const Text('Select Employees'),
       content: SingleChildScrollView(
-        child: ListBody(
-          children: widget.users.map((user) {
-            return CheckboxListTile(
-              value: _tempSelectedUsers.contains(user),
-              title: Text(user.name),
-              controlAffinity: ListTileControlAffinity.leading,
-              onChanged: (bool? value) {
-                setState(() {
-                  if (value == true) {
-                    _tempSelectedUsers.add(user);
-                  } else {
-                    _tempSelectedUsers.remove(user);
-                  }
-                });
-              },
-            );
-          }).toList(),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Column(
+              children: widget.users.map((user) {
+                return CheckboxListTile(
+                  value: _tempSelectedUsers.contains(user),
+                  title: Text(user.name),
+                  controlAffinity: ListTileControlAffinity.leading,
+                  onChanged: (bool? value) async {
+                    setState(() {
+                      if (value == true) {
+                        _tempSelectedUsers.add(user);
+                      } else {
+                        _tempSelectedUsers.remove(user);
+                      }
+
+                      // If no users are selected, reset isChanged and hide the card
+                      if (_tempSelectedUsers.isEmpty) {
+                        isChanged = false;
+                        _recommendedUser = null; // Clear the recommended user data
+                      }
+                    });
+
+                    // Call the API if a user is selected and the list isn't empty
+                    if (value == true && _tempSelectedUsers.isNotEmpty) {
+                      await fetchRecommendedUser(user.id);
+                    }
+                  },
+                );
+              }).toList(),
+            ),
+            SizedBox(height: 16),
+            // Display the card only if a recommended user is available
+            if (isChanged && _recommendedUser != null)
+              Padding(
+                padding: const EdgeInsets.all(16.0), // Adjust the padding value as needed
+                child: Card(
+                  elevation: 5,
+                  child: ListTile(
+                    leading: CircleAvatar(
+                      backgroundImage: AssetImage(_recommendedUser!.imageUrl),
+                      radius: 30,
+                    ),
+                    title: Text(_recommendedUser!.fullName),
+                    subtitle: const Text("Recommended user")
+                  ),
+                ),
+              ),
+          ],
         ),
       ),
       actions: <Widget>[
@@ -69,6 +123,9 @@ class _MultiSelectDialogState extends State<MultiSelectDialog> {
     );
   }
 }
+
+
+
 
 class TaskDesktopForm extends StatefulWidget {
   @override
@@ -148,7 +205,7 @@ class _TaskFormState extends State<TaskDesktopForm> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: eManagementTopAppBarPage(),
+      appBar: eManagementTopAppBarPage(title: "Add Task"),
       bottomNavigationBar: eManagementBottomNavigationBar(),
       body: Padding(
         padding: const EdgeInsets.all(8.0),

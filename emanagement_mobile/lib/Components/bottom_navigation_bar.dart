@@ -1,5 +1,6 @@
 import 'dart:io'; // For platform detection on non-web platforms
 import 'package:emanagement_mobile/Presentation/Desktop/users_desktop.dart';
+import 'package:emanagement_mobile/Presentation/working_absences.dart';
 import 'package:flutter/foundation.dart' show kIsWeb; // For web platform detection
 import 'package:emanagement_mobile/Models/user_session.dart';
 import 'package:emanagement_mobile/Presentation/event_details.dart';
@@ -29,7 +30,6 @@ class eManagementBottomNavigationBarState
       // Web platform logic can be added here if needed
       _screens = [
         const EventsPage(),
-        ProfilePage(userId: UserSession().userId!),
         const UsersPage(),
         const TasksPage(),
         const EventDetailsPageWidget(eventId: 1),
@@ -39,19 +39,17 @@ class eManagementBottomNavigationBarState
       if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
         _screens = [
           const EventsPage(),
-          ProfilePage(userId: UserSession().userId!),
           const UsersDesktopWidget(),
           const TasksPage(),
-          const EventDetailsPageWidget(eventId: 1),
+          const WorkingAbsencePage(),
         ];
       } else {
         // Mobile or other non-desktop platforms
         _screens = [
           const EventsPage(),
-          ProfilePage(userId: UserSession().userId!),
           const UsersPage(),
           const TasksPage(),
-          const EventDetailsPageWidget(eventId: 1),
+          const WorkingAbsencePage(),
         ];
       }
     }
@@ -64,15 +62,10 @@ class eManagementBottomNavigationBarState
         BottomNavigationBarItem(
           icon: Icon(Icons.home),
           backgroundColor: Colors.black,
-          label: 'Home',
+          label: 'Events',
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.person),
-          backgroundColor: Colors.black,
-          label: 'Profile',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.list),
           backgroundColor: Colors.black,
           label: 'Employees',
         ),
@@ -84,7 +77,7 @@ class eManagementBottomNavigationBarState
         BottomNavigationBarItem(
           icon: Icon(Icons.event),
           backgroundColor: Colors.black,
-          label: 'Events',
+          label: 'Working Absences',
         ),
       ],
       currentIndex: _selectedIndex,

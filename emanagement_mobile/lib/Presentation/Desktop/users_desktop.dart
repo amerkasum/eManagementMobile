@@ -22,9 +22,9 @@ class _UsersDesktopWidgetState extends State<UsersDesktopWidget> {
   List<UserDesktopDto> allUsers = [];
   List<UserDesktopDto> filteredUsers = [];
   TextEditingController searchController = TextEditingController();
-  String? selectedContractType = 'ALL'; 
-  String? selectedPosition = 'ALL'; 
-  String? selectedLeaveType = 'Available'; // Added for the third filter
+  String? selectedContractType = 'Contract Type'; 
+  String? selectedPosition = 'Position'; 
+  String? selectedLeaveType = 'Availability';
 
   @override
   void initState() {
@@ -69,9 +69,9 @@ class _UsersDesktopWidgetState extends State<UsersDesktopWidget> {
       filteredUsers = allUsers
           .where((user) =>
               user.fullName.toLowerCase().contains(query.toLowerCase()) &&
-              (selectedContractType == null || selectedContractType == 'ALL' || user.contractType == selectedContractType) &&
-              (selectedPosition == null || selectedPosition == 'ALL' || user.position == selectedPosition) &&
-              (selectedLeaveType == null || selectedLeaveType == 'ALL' || user.availability == selectedLeaveType))
+              (selectedContractType == null || selectedContractType == 'Contract Type' || user.contractType == selectedContractType) &&
+              (selectedPosition == null || selectedPosition == 'Position' || user.position == selectedPosition) &&
+              (selectedLeaveType == null || selectedLeaveType == 'Availability' || user.availability == selectedLeaveType))
           .toList();
     });
   }
@@ -102,7 +102,7 @@ class _UsersDesktopWidgetState extends State<UsersDesktopWidget> {
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
-        appBar: eManagementTopAppBarPage(),
+        appBar: eManagementTopAppBarPage(title: "Employees"),
         bottomNavigationBar: eManagementBottomNavigationBar(),
         body: SafeArea(
           top: true,
@@ -190,7 +190,7 @@ class _UsersDesktopWidgetState extends State<UsersDesktopWidget> {
                           value: selectedContractType,
                           hint: const Text('Contract Type'),
                           items: <String>[
-                            "ALL",
+                            "Contract Type",
                             'Full Time',
                             'Part Time',
                             'Temporary',
@@ -233,7 +233,7 @@ class _UsersDesktopWidgetState extends State<UsersDesktopWidget> {
                           value: selectedPosition,
                           hint: const Text('Position'),
                           items: <String>[
-                            'ALL',
+                            'Position',
                             'Software Developer',
                             'Data Scientist',
                             'Product Manager',
@@ -284,6 +284,7 @@ class _UsersDesktopWidgetState extends State<UsersDesktopWidget> {
                           value: selectedLeaveType,
                           hint: const Text('Leave Type'),
                           items: <String>[
+                            'Availability',
                             'Available',
                             'Sick Leave',
                             'Vacation Leave',
@@ -364,6 +365,9 @@ class _UsersDesktopWidgetState extends State<UsersDesktopWidget> {
                                         child: Image(
                                           image: AssetImage(user.imageUrl),
                                           fit: BoxFit.cover,
+                                          errorBuilder:  (context, error, stacTrace) {
+                                            return Image.asset("assets/user.jpg");
+                                          },
                                         ),
                                       ),
                                       // Text displaying the user's full name
@@ -376,7 +380,14 @@ class _UsersDesktopWidgetState extends State<UsersDesktopWidget> {
                                 DataCell(Text(user.contractType)),
                                 DataCell(Text(user.formattedContractExpireDate)),
                                 DataCell(Text(user.position)),
-                                DataCell(Text(user.availability)),
+                                DataCell(
+                                  Text(
+                                    user.availability,
+                                    style: TextStyle(
+                                      color: user.availability == 'Available' ? Colors.green : Colors.red, 
+                                    ),
+                                  ),
+                                ),
                                 DataCell(
                                   Row(
                                     children: [
