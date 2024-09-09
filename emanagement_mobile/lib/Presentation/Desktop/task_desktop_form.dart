@@ -37,14 +37,14 @@ class _MultiSelectDialogState extends State<MultiSelectDialog> {
     try {
       final recommendedUser = await userService.getRecommend(userId);
       setState(() {
-        _recommendedUser = recommendedUser; // Update with fetched user data
-        isChanged = _recommendedUser != null; // Set isChanged to true only if a valid user is returned
+        _recommendedUser = recommendedUser; 
+        isChanged = _recommendedUser != null; 
       });
     } catch (e) {
       print('Failed to fetch recommended user: $e');
       setState(() {
-        _recommendedUser = null; // Reset the recommended user if an error occurs
-        isChanged = false; // Ensure isChanged is false
+        _recommendedUser = null; 
+        isChanged = false; 
       });
     }
   }
@@ -71,14 +71,12 @@ class _MultiSelectDialogState extends State<MultiSelectDialog> {
                         _tempSelectedUsers.remove(user);
                       }
 
-                      // If no users are selected, reset isChanged and hide the card
                       if (_tempSelectedUsers.isEmpty) {
                         isChanged = false;
-                        _recommendedUser = null; // Clear the recommended user data
+                        _recommendedUser = null; 
                       }
                     });
 
-                    // Call the API if a user is selected and the list isn't empty
                     if (value == true && _tempSelectedUsers.isNotEmpty) {
                       await fetchRecommendedUser(user.id);
                     }
@@ -87,10 +85,9 @@ class _MultiSelectDialogState extends State<MultiSelectDialog> {
               }).toList(),
             ),
             SizedBox(height: 16),
-            // Display the card only if a recommended user is available
             if (isChanged && _recommendedUser != null)
               Padding(
-                padding: const EdgeInsets.all(16.0), // Adjust the padding value as needed
+                padding: const EdgeInsets.all(16.0), 
                 child: Card(
                   elevation: 5,
                   child: ListTile(
@@ -246,7 +243,7 @@ class _TaskFormState extends State<TaskDesktopForm> {
                         labelText: 'Description',
                         floatingLabelBehavior: FloatingLabelBehavior.always,
                         border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(0), // 0 border radius
+                          borderRadius: BorderRadius.circular(0), 
                         ),
                       ),
                     ),
@@ -257,14 +254,14 @@ class _TaskFormState extends State<TaskDesktopForm> {
                     child: TextField(
                       controller: TextEditingController(
                         text: _taskViewModel.dueDate != null
-                            ? _taskViewModel.dueDate!.toLocal().toString().split(' ')[0] // Date format: YYYY-MM-DD
+                            ? _taskViewModel.dueDate!.toLocal().toString().split(' ')[0] 
                             : '',
                       ),
                       decoration: InputDecoration(
                         labelText: 'Due Date',
                         floatingLabelBehavior: FloatingLabelBehavior.always,
                         border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(0), // 0 border radius
+                          borderRadius: BorderRadius.circular(0), 
                         ),
                       ),
                       readOnly: true,
@@ -287,12 +284,12 @@ class _TaskFormState extends State<TaskDesktopForm> {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: DropdownButtonFormField<int>(
-                      value: _taskViewModel.taskPriorityId, // Adjust index for selection
+                      value: _taskViewModel.taskPriorityId,
                       decoration: InputDecoration(
                         labelText: 'Task Priority',
                         floatingLabelBehavior: FloatingLabelBehavior.always,
                         border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(0), // 0 border radius
+                          borderRadius: BorderRadius.circular(0), 
                         ),
                       ),
                       items: _priorities
@@ -316,7 +313,7 @@ class _TaskFormState extends State<TaskDesktopForm> {
                         labelText: 'Location',
                         floatingLabelBehavior: FloatingLabelBehavior.always,
                         border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(0), // 0 border radius
+                          borderRadius: BorderRadius.circular(0), 
                         ),
                       ),
                       items: _cities
@@ -332,7 +329,6 @@ class _TaskFormState extends State<TaskDesktopForm> {
                       },
                     ),
                   ),
-                  // Users multi-select dropdown
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: GestureDetector(
@@ -373,9 +369,9 @@ class _TaskFormState extends State<TaskDesktopForm> {
                     child: Center(
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          padding: EdgeInsets.symmetric(horizontal: 50, vertical: 15), // Adjust padding if needed
-                          backgroundColor: Colors.black, // Black background
-                          foregroundColor: Colors.white, // White text
+                          padding: EdgeInsets.symmetric(horizontal: 50, vertical: 15), 
+                          backgroundColor: Colors.black, 
+                          foregroundColor: Colors.white, 
                         ),
                         onPressed: _submitForm,
                         child: Text('Submit'),

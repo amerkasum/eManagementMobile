@@ -32,7 +32,7 @@ class eManagementBottomNavigationBarState
         const EventsPage(),
         const UsersPage(),
         const TasksPage(),
-        const EventDetailsPageWidget(eventId: 1),
+        const WorkingAbsencePage(),
       ];
     } else {
       // Non-web platforms (Desktop)

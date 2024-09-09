@@ -34,7 +34,7 @@ class _EventsWidgetState extends State<EventsPage> {
     if (response.statusCode == 200) {
       final List<dynamic> jsonResponse = jsonDecode(response.body);
       data = jsonResponse.map((model) => EventsDto.fromJson(model)).toList();
-      filteredData = data; // Initially show all events
+      filteredData = data; 
       setState(() {});
     } else {
       throw Exception('Failed to load events');
@@ -54,7 +54,7 @@ class _EventsWidgetState extends State<EventsPage> {
       case 'cancelled':
         return Colors.grey;
       default:
-        return Colors.black; // Default color if the status doesn't match any case
+        return Colors.black; 
     }
   }
 
@@ -83,7 +83,7 @@ class _EventsWidgetState extends State<EventsPage> {
       body: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.all(15.0), // Adjust the padding as needed
+            padding: const EdgeInsets.all(15.0), 
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -184,7 +184,7 @@ class _EventsWidgetState extends State<EventsPage> {
                           ClipRRect(
                             borderRadius: BorderRadius.circular(8),
                             child: Image(
-                              image: AssetImage(event.imageUrl), // Gets a random image of 600x600 pixels
+                              image: AssetImage(event.imageUrl), 
                               width: 120,
                               height: 200,
                               fit: BoxFit.cover,
@@ -214,10 +214,10 @@ class _EventsWidgetState extends State<EventsPage> {
                             ),
                           ),
                           Row(
-                            mainAxisAlignment: MainAxisAlignment.end, // Aligns the text to the right
+                            mainAxisAlignment: MainAxisAlignment.end, 
                             children: [
                               Padding(
-                                padding: const EdgeInsets.all(5), // Adds 5px padding
+                                padding: const EdgeInsets.all(5), 
                                 child: Text(
                                   event.startDateFormatted,
                                   style: const TextStyle(

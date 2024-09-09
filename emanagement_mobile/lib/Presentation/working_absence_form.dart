@@ -1,5 +1,4 @@
 import 'package:emanagement_mobile/Models/user_session.dart';
-import 'package:emanagement_mobile/Presentation/task_form.dart';
 import 'package:emanagement_mobile/Presentation/working_absences.dart';
 import 'package:emanagement_mobile/Services/Helpers/helpers.dart';
 import 'package:emanagement_mobile/Services/working_absence_service.dart';
@@ -80,7 +79,6 @@ class _WorkingAbsenceFormPageState extends State<WorkingAbsenceFormPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Absence Type ID Dropdown
               DropdownButtonFormField<int>(
                 decoration: const InputDecoration(
                   labelText: 'Absence Type',
@@ -112,7 +110,6 @@ class _WorkingAbsenceFormPageState extends State<WorkingAbsenceFormPage> {
               ),
               SizedBox(height: 16),
 
-              // Start Date Picker
               TextFormField(
                 controller: _startDateController,
                 decoration: InputDecoration(
@@ -203,7 +200,6 @@ class _WorkingAbsenceFormPageState extends State<WorkingAbsenceFormPage> {
 
               SizedBox(height: 16),
 
-              // Submit Button and Checkbox Row
               Row(
                  mainAxisAlignment: MainAxisAlignment.start,
                  children: [

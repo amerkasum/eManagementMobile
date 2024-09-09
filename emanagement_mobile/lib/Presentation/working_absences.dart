@@ -131,8 +131,7 @@ class _WorkingAbsenceWidgetState extends State<WorkingAbsencePage> {
                     },
                   ),
                 ),
-                if (isDesktop)
-                  Padding(
+                Padding(
                     padding: const EdgeInsets.only(left: 8.0),
                     child: ElevatedButton(
                       onPressed: () {
@@ -152,6 +151,7 @@ class _WorkingAbsenceWidgetState extends State<WorkingAbsencePage> {
                       child: const Text('Absence Request'),
                     ),
                   ),
+                  
               ],
             ),
             const SizedBox(height: 16),
@@ -172,9 +172,9 @@ class _WorkingAbsenceWidgetState extends State<WorkingAbsencePage> {
                               children: [
                                 CircleAvatar(
                                   backgroundImage: AssetImage(absence.imageUrl),
-                                  radius: 25, // Adjust the size of the image
+                                  radius: 20,
                                 ),
-                                const SizedBox(width: 10), // Space between image and text
+                                const SizedBox(width: 10), 
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -182,7 +182,7 @@ class _WorkingAbsenceWidgetState extends State<WorkingAbsencePage> {
                                       absence.absenceType.toUpperCase(),
                                       style: const TextStyle(
                                         fontWeight: FontWeight.bold,
-                                        fontSize: 18,
+                                        fontSize: 15,
                                       ),
                                     ),
                                     Text(
@@ -200,7 +200,7 @@ class _WorkingAbsenceWidgetState extends State<WorkingAbsencePage> {
                                   absence.absenceStatus.toUpperCase(),
                                   style: TextStyle(
                                     color: _getStatusColor(absence.absenceStatus),
-                                    fontSize: 18,
+                                    fontSize: 15,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
@@ -217,7 +217,7 @@ class _WorkingAbsenceWidgetState extends State<WorkingAbsencePage> {
                         ),
                         children: <Widget>[
                           Padding(
-                            padding: const EdgeInsets.only(left: 20.0, top: 5.0, bottom: 5.0, right: 20.0),
+                            padding: const EdgeInsets.only(left: 5.0, top: 5.0, bottom: 5.0, right: 5.0),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [

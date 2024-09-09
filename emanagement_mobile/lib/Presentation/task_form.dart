@@ -135,19 +135,18 @@ class _TaskFormState extends State<TaskForm> {
     );
 
     if (response.statusCode == 200) {
-      // Successfully submitted
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Task submitted successfully')),
       );
       Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(builder: (context) => const TasksPage()),
-        (route) => false, // Remove all previous routes
+        (route) => false, 
       );
     } else {
       // Error occurred
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Failed to submit task')),
+         SnackBar(content: Text('Failed to submit task')),
       );
     }
   }
@@ -208,7 +207,7 @@ class _TaskFormState extends State<TaskForm> {
                       child: TextField(
                         controller: TextEditingController(
                           text: _taskViewModel.dueDate != null
-                              ? _taskViewModel.dueDate!.toLocal().toString().split(' ')[0] // Date format: YYYY-MM-DD
+                              ? _taskViewModel.dueDate!.toLocal().toString().split(' ')[0] 
                               : '',
                         ),
                         decoration: InputDecoration(
@@ -238,7 +237,7 @@ class _TaskFormState extends State<TaskForm> {
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: DropdownButtonFormField<int>(
-                        value: _taskViewModel.taskPriorityId, // Adjust index for selection
+                        value: _taskViewModel.taskPriorityId, 
                         decoration: InputDecoration(
                           labelText: 'Task Priority',
                           floatingLabelBehavior: FloatingLabelBehavior.always,
@@ -348,9 +347,18 @@ class _TaskFormState extends State<TaskForm> {
                       padding: const EdgeInsets.all(8.0),
                       child: ElevatedButton(
                         onPressed: _submitForm,
-                        child: Text('Submit'),
+                        style: ElevatedButton.styleFrom(
+                          minimumSize: const Size(double.infinity, 60), 
+                          backgroundColor: Colors.black, 
+                          textStyle: const TextStyle(fontSize: 18), 
+                        ),
+                        child: const Text(
+                          'Submit',
+                          style: TextStyle(color: Colors.white), 
+                        ),
                       ),
                     ),
+
                   ],
                 ),
               ),

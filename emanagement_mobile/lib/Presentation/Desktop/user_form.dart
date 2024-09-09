@@ -91,11 +91,9 @@ class _UserFormState extends State<UserForm> {
       _formKey.currentState?.save();
 
       if (_profileImage != null) {
-        // Save the image to a temporary directory or another suitable location
         final imagePath = 'assets/profile_images/${DateTime.now().millisecondsSinceEpoch}.jpg';
         await _profileImage!.copy(imagePath);
         
-        // Set the imageUrl in UserViewModel
         userViewModel.imageUrl = imagePath;
       }
       await userService.createUser(userViewModel);
@@ -103,7 +101,7 @@ class _UserFormState extends State<UserForm> {
       Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(builder: (context) => const UsersDesktopWidget()),
-        (route) => false, // Remove all previous routes
+        (route) => false, 
       );
     }
   }
