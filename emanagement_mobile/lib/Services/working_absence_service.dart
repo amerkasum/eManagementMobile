@@ -5,7 +5,7 @@ import 'package:emanagement_mobile/Models/working_absence_basic_dto.dart';
 import 'package:emanagement_mobile/Models/working_absence_view_model.dart';
 
 class WorkingAbsenceService {
-  final ApiHandler apiHandler = ApiHandler(baseUrl: 'https://localhost:5001');
+  final ApiHandler apiHandler = ApiHandler(baseUrl: 'http://localhost:5001');
 
   Future<List<WorkingAbsenceBasicDto>> getWorkingAbsences() async {
     final response = await apiHandler.getRequest('api/WorkingAbsence/GetWorkingAbsences?userId=${UserSession().userId}');

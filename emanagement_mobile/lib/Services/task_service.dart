@@ -3,7 +3,7 @@ import 'package:emanagement_mobile/Models/task_details.dart';
 import 'package:emanagement_mobile/Models/tasks_dto.dart';
 import 'package:emanagement_mobile/Models/user_session.dart';
 class TaskService {
-  final ApiHandler apiHandler = ApiHandler(baseUrl: 'https://localhost:5001');
+  final ApiHandler apiHandler = ApiHandler(baseUrl: 'http://localhost:5001');
 
   Future<List<TaskDto>> getAll() async {
     try {

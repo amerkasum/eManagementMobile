@@ -8,7 +8,7 @@ import 'package:emanagement_mobile/Presentation/events.dart';
 import 'package:flutter/material.dart';
 
 class UserService {
-  final ApiHandler apiHandler = ApiHandler(baseUrl: 'https://localhost:5001');
+  final ApiHandler apiHandler = ApiHandler(baseUrl: 'http://localhost:5001');
 
   Future<List<UserDto>> getAllUsers() async {
     final response = await apiHandler.getRequest('api/Users/GetUsers');

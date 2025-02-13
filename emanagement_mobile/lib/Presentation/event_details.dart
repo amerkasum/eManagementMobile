@@ -24,7 +24,7 @@ class _EventDetailsPageWidgetState extends State<EventDetailsPageWidget> {
   }
 
   Future<EventDetailsDto> fetchEventDetails(int eventId) async {
-    final response = await http.get(Uri.parse('https://localhost:5001/api/Events/Details?eventId=$eventId'));
+    final response = await http.get(Uri.parse('http://localhost:5001/api/Events/Details?eventId=$eventId'));
 
     if (response.statusCode == 200) {
       return EventDetailsDto.fromJson(json.decode(response.body));

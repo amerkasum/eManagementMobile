@@ -28,7 +28,7 @@ class _ProfilePageWidgetState extends State<ProfilePage> {
 
   Future<UserProfileDto> getUserProfileDto(int userId) async {
     final response = await http.get(
-        Uri.parse('https://localhost:5001/api/Users/GetUserProfile?userId=$userId'));
+        Uri.parse('http://localhost:5001/api/Users/GetUserProfile?userId=$userId'));
 
     if (response.statusCode == 200) {
       return UserProfileDto.fromJson(jsonDecode(response.body) as Map<String, dynamic>);

@@ -124,7 +124,7 @@ class _TaskFormState extends State<TaskForm> {
   }
  
   Future<void> _submitForm() async {
-    final url = 'https://localhost:5001/api/Tasks/Add';
+    final url = 'http://localhost:5001/api/Tasks/Add';
 
     final response = await http.post(
       Uri.parse(url),

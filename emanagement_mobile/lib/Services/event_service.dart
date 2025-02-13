@@ -3,7 +3,7 @@ import 'package:emanagement_mobile/Models/Desktop/event_view_nodel.dart';
 
 
 class EventService {
-  final ApiHandler apiHandler = ApiHandler(baseUrl: 'https://localhost:5001');
+  final ApiHandler apiHandler = ApiHandler(baseUrl: 'http://localhost:5001');
 
 
 

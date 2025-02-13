@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class ApiService {
-  final String apiUrl = "https://localhost:5001"; // Replace with your actual API URL
+  final String apiUrl = "http://localhost:5001"; // Replace with your actual API URL
 
   Future<List<SelectListHelper>> fetchContractTypes() async {
     final response = await http.get(Uri.parse('$apiUrl/api/ContractType/GetAll'));

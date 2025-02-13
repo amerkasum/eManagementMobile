@@ -25,7 +25,7 @@ class _EventsWidgetState extends State<EventsPage> {
 
   Future<List<EventsDto>> getAll() async {
     final response = await http.get(
-      Uri.parse('https://localhost:5001/api/Events/GetAll'),
+      Uri.parse('http://localhost:5001/api/Events/GetAll'),
       headers: <String, String>{
         "Content-type": "application/json; charset=UTF-8"
       },
