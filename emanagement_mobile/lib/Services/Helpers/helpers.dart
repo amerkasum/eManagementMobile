@@ -1,9 +1,12 @@
+import 'dart:io';
+
 import 'package:emanagement_mobile/Models/Helpers/select_list_helper.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+final isDesktop = !Platform.isAndroid && (Platform.isWindows || Platform.isMacOS || Platform.isLinux);
 class ApiService {
-  final String apiUrl = "http://localhost:5001"; // Replace with your actual API URL
+  final String apiUrl = isDesktop ? "http://localhost:5001" : "http://10.0.2.2:5001"; // Replace with your actual API URL
 
   Future<List<SelectListHelper>> fetchContractTypes() async {
     final response = await http.get(Uri.parse('$apiUrl/api/ContractType/GetAll'));

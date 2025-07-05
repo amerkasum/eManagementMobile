@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:emanagement_mobile/Models/event_details_dto.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -24,7 +25,9 @@ class _EventDetailsPageWidgetState extends State<EventDetailsPageWidget> {
   }
 
   Future<EventDetailsDto> fetchEventDetails(int eventId) async {
-    final response = await http.get(Uri.parse('http://localhost:5001/api/Events/Details?eventId=$eventId'));
+    final isDesktop = !Platform.isAndroid && (Platform.isWindows || Platform.isMacOS || Platform.isLinux);
+    final response = isDesktop ? await http.get(Uri.parse('http://localhost:5001/api/Events/Details?eventId=$eventId'))
+    : await http.get(Uri.parse('http://10.0.2.2:5001/api/Events/Details?eventId=$eventId'));
 
     if (response.statusCode == 200) {
       return EventDetailsDto.fromJson(json.decode(response.body));

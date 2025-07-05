@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:emanagement_mobile/Components/top_app_bar.dart';
 import 'package:emanagement_mobile/Models/events_dto.dart';
 import 'package:emanagement_mobile/Components/bottom_navigation_bar.dart';
 import 'package:emanagement_mobile/Presentation/Desktop/event_form.dart';
@@ -8,16 +9,14 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/foundation.dart' show kIsWeb;
 
-import '../Components/top_app_bar.dart';
-
-class EventsPage extends StatefulWidget {
-  const EventsPage({super.key});
+class EventsDesktopPage extends StatefulWidget {
+  const EventsDesktopPage({super.key});
 
   @override
-  State<EventsPage> createState() => _EventsWidgetState();
+  State<EventsDesktopPage> createState() => _EventsDesktopWidgetState();
 }
 
-class _EventsWidgetState extends State<EventsPage> {
+class _EventsDesktopWidgetState extends State<EventsDesktopPage> {
   late List<EventsDto> data = [];
   late List<EventsDto> filteredData = [];
   String selectedStatus = 'All';
@@ -25,10 +24,7 @@ class _EventsWidgetState extends State<EventsPage> {
 
   Future<List<EventsDto>> getAll() async {
     final isDesktop = !Platform.isAndroid && (Platform.isWindows || Platform.isMacOS || Platform.isLinux);
-
-    final response = await http.get(
-      isDesktop ? Uri.parse('http://localhost:5001/api/Events/GetAll') : Uri.parse('http://10.0.2.2:5001/api/Events/GetAll'),
-      headers: <String, String>{
+    final response = await http.get(Uri.parse(isDesktop ? 'http://localhost:5001/api/Events/GetAll' : 'http://10.0.2.2:5001/api/Events/GetAll'),headers: <String, String>{
         "Content-type": "application/json; charset=UTF-8"
       },
     );
@@ -101,10 +97,7 @@ class _EventsWidgetState extends State<EventsPage> {
                       }
                     },
                     items: eventStatusNames.map<DropdownMenuItem<String>>((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(value),
-                      );
+                      return DropdownMenuItem<String>(value: value, child: Text(value));
                     }).toList(),
                     decoration: InputDecoration(
                       filled: true,
@@ -147,92 +140,84 @@ class _EventsWidgetState extends State<EventsPage> {
               ],
             ),
           ),
-
-
           Expanded(
-            child: ListView.builder(
+            child: GridView.builder(
               padding: const EdgeInsets.all(20),
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 3,  
+                crossAxisSpacing: 20,
+                mainAxisSpacing: 20,
+                childAspectRatio: 1.0,  // Adjust this ratio for card size
+              ),
               itemCount: filteredData.length,
               itemBuilder: (BuildContext context, int index) {
                 final event = filteredData[index];
-                return Padding(
-                  padding: const EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
-                  child: InkWell(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => EventDetailsPageWidget(eventId: event.id),
+                return InkWell(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => EventDetailsPageWidget(eventId: event.id),
+                      ),
+                    );
+                  },
+                  child: Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    elevation: 5,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(8),
+                          child: Image(
+                            image: AssetImage(event.imageUrl), 
+                            width: double.infinity,
+                            height: 250,
+                            fit: BoxFit.cover,
+                            errorBuilder: (context, error, stackTrace) {
+                              return Image.asset("assets/default.jpg");
+                            },
+                          ),
                         ),
-                      );
-                    },
-                    child: Container(
-                      width: 442,
-                      height: 100,
-                      decoration: BoxDecoration(
-                        color: Colors.white70,
-                        borderRadius: const BorderRadius.all(Radius.circular(8)),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.5),
-                            spreadRadius: 2,
-                            blurRadius: 5,
-                            offset: const Offset(0, 3),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            event.title,
+                            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                           ),
-                        ],
-                      ),
-                      child: Stack(
-                        children: [
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(8),
-                            child: Image(
-                              image: AssetImage(event.imageUrl), 
-                              width: 120,
-                              height: 200,
-                              fit: BoxFit.cover,
-                              errorBuilder:  (context, error, stacTrace) {
-                                return Image.asset("assets/default.jpg");
-                              },
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                          child: Text(
+                            event.subtitle,
+                            style: const TextStyle(fontSize: 14),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            event.eventStatusName,
+                            style: TextStyle(
+                              fontWeight: FontWeight.w600,
+                              color: _getStatusColor(event.eventStatusName),
+                              fontSize: 12,
                             ),
                           ),
-                          Padding(
-                            padding: const EdgeInsetsDirectional.fromSTEB(125, 0, 0, 0),
-                            child: Text(
-                              event.title,
-                              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            event.startDateFormatted,
+                            style: const TextStyle(
+                              fontWeight: FontWeight.w600,
+                              color: Colors.grey,
+                              fontSize: 12,
                             ),
                           ),
-                          Padding(
-                            padding: const EdgeInsetsDirectional.fromSTEB(126, 25, 0, 0),
-                            child: Text(
-                              event.subtitle,
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsetsDirectional.fromSTEB(125, 75, 0, 0),
-                            child: Text(
-                              event.eventStatusName,
-                              style: TextStyle(fontWeight: FontWeight.w600, color: _getStatusColor(event.eventStatusName), letterSpacing: 1.2, fontSize: 12),
-                            ),
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.end, 
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(5), 
-                                child: Text(
-                                  event.startDateFormatted,
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.w600,
-                                    color: Colors.grey,
-                                    fontSize: 12,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
                 );

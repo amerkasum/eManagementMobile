@@ -84,7 +84,7 @@ class _WorkingAbsenceWidgetState extends State<WorkingAbsencePage> {
 
   @override
   Widget build(BuildContext context) {
-    final isDesktop = !kIsWeb && (Platform.isWindows || Platform.isMacOS || Platform.isLinux);
+    final isDesktop = !Platform.isAndroid && (Platform.isWindows || Platform.isMacOS || Platform.isLinux);
     return Scaffold(
       appBar: eManagementTopAppBarPage(title: "Working Absences"),
       bottomNavigationBar: eManagementBottomNavigationBar(),

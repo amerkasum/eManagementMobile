@@ -1,4 +1,5 @@
 import 'dart:io'; // For platform detection on non-web platforms
+import 'package:emanagement_mobile/Presentation/Desktop/events_desktop.dart';
 import 'package:emanagement_mobile/Presentation/Desktop/users_desktop.dart';
 import 'package:emanagement_mobile/Presentation/working_absences.dart';
 import 'package:flutter/foundation.dart' show kIsWeb; // For web platform detection
@@ -38,7 +39,7 @@ class eManagementBottomNavigationBarState
       // Non-web platforms (Desktop)
       if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
         _screens = [
-          const EventsPage(),
+          const EventsDesktopPage(),
           const UsersDesktopWidget(),
           const TasksPage(),
           const WorkingAbsencePage(),

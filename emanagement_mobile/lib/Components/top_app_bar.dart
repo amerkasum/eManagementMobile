@@ -1,8 +1,12 @@
+import 'dart:io';
+
 import 'package:emanagement_mobile/Models/user_session.dart';
+import 'package:emanagement_mobile/Presentation/Desktop/profile_desktop.dart';
 import 'package:emanagement_mobile/Presentation/login.dart';
 import 'package:emanagement_mobile/Presentation/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart'; // Import this for MouseCursor
+import 'package:flutter/foundation.dart' show kIsWeb; // To check if it's web
 
 class eManagementTopAppBarPage extends StatelessWidget implements PreferredSizeWidget {
   @override
@@ -29,12 +33,22 @@ class eManagementTopAppBarPage extends StatelessWidget implements PreferredSizeW
           cursor: SystemMouseCursors.click, // Change cursor to pointer on hover
           child: GestureDetector(
             onTap: () {
-              // Navigate to the ProfilePage when the Row is tapped
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => ProfilePage(userId: UserSession().userId!),
-                ),
-              );
+              // Check if it's a desktop platform
+              if (Platform.isAndroid || !Platform.isAndroid && (Platform.isWindows || Platform.isMacOS || Platform.isLinux)) {
+                // Navigate to ProfileDesktopPage if it's a desktop
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => ProfileDesktopPage(userId: userSession.userId!),
+                  ),
+                );
+              } else {
+                // Navigate to ProfilePage if it's not a desktop (mobile)
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => ProfilePage(userId: userSession.userId!),
+                  ),
+                );
+              }
             },
             child: Row(
               children: [

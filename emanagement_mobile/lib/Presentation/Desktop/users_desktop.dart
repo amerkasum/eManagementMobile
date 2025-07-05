@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:emanagement_mobile/Components/bottom_navigation_bar.dart';
 import 'package:emanagement_mobile/Models/Desktop/users_desktop_dto.dart';
 import 'package:emanagement_mobile/Presentation/Desktop/user_form.dart';
@@ -50,7 +51,8 @@ class _UsersDesktopWidgetState extends State<UsersDesktopWidget> {
   }
 
   Future<List<UserDesktopDto>> fetchUsers() async {
-    final response = await http.get(Uri.parse('http://localhost:5001/api/Users/GetUsersDesktop'));
+    final isDesktop = !Platform.isAndroid && (Platform.isWindows || Platform.isMacOS || Platform.isLinux);
+    final response = await http.get(Uri.parse(isDesktop ? 'http://localhost:5001/api/Users/GetUsersDesktop' : 'http://10.0.2.2:5001/api/Users/GetUsersDesktop'));
 
     if (response.statusCode == 200) {
       List<dynamic> jsonResponse = json.decode(response.body);

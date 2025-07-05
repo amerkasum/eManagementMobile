@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:emanagement_mobile/Components/bottom_navigation_bar.dart';
 import 'package:emanagement_mobile/Models/Helpers/select_list_helper.dart';
 import 'package:emanagement_mobile/Models/Helpers/user_basic_dto.dart';
@@ -171,7 +173,8 @@ class _TaskFormState extends State<TaskDesktopForm> {
  
 
   Future<void> _submitForm() async {
-    final url = 'http://localhost:5001/api/Tasks/Add';
+    final isDesktop = !Platform.isAndroid && (Platform.isWindows || Platform.isMacOS || Platform.isLinux);
+    final url = isDesktop ? 'http://localhost:5001/api/Tasks/Add' : 'http://10.0.2.2:5001/api/Tasks/Add';
 
     final response = await http.post(
       Uri.parse(url),

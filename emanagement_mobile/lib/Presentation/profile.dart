@@ -27,8 +27,9 @@ class _ProfilePageWidgetState extends State<ProfilePage> {
   }
 
   Future<UserProfileDto> getUserProfileDto(int userId) async {
-    final response = await http.get(
-        Uri.parse('http://localhost:5001/api/Users/GetUserProfile?userId=$userId'));
+    final isDesktop = !Platform.isAndroid && (Platform.isWindows || Platform.isMacOS || Platform.isLinux);
+    final response = isDesktop ? await http.get(Uri.parse('http://localhost:5001/api/Users/GetUserProfile?userId=$userId'))
+         : await http.get(Uri.parse('http://10.0.2.2:5001/api/Users/GetUserProfile?userId=$userId'));
 
     if (response.statusCode == 200) {
       return UserProfileDto.fromJson(jsonDecode(response.body) as Map<String, dynamic>);
@@ -39,7 +40,7 @@ class _ProfilePageWidgetState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-    final isDesktop = !kIsWeb && (Platform.isWindows || Platform.isMacOS || Platform.isLinux);
+    final isDesktop = !Platform.isAndroid && (Platform.isWindows || Platform.isMacOS || Platform.isLinux);
 
     return Scaffold(
       appBar: eManagementTopAppBarPage(title: "Profile"),
