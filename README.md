@@ -16,3 +16,4 @@ Iz nekog razloga vitrualizacija na mojoj masini nije radila cak i kada ukljucim 
 Recommender system:
 [Reccomender sistem.docx](https://github.com/user-attachments/files/21048353/Reccomender.sistem.docx)
 
+Apk i windows: https://www.sendspace.com/file/byp8k7
