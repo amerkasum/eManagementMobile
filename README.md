@@ -17,7 +17,11 @@ Apk i windows: https://www.sendspace.com/file/byp8k7 (zanemariti)
 fit-build-2025-08-25.zip.001 password: fit
 
 
-/* -------------------------------------------------------------------------------------------- */
+
+
+
+
+
 import 'package:flutter/material.dart';
 
 enum NotificationType { success, error, info, warning }
@@ -71,4 +75,4 @@ Future<void> createUser(BuildContext context, UserViewModel user) async {
     NotificationHelper.show(context, "An error occurred: $e", NotificationType.error);
   }
 }
-/* ---------------------------------------------------------------------------------------------------------------------- */
+
