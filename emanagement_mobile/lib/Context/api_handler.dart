@@ -27,6 +27,18 @@ class ApiHandler {
     return _processResponse(response);
   }
 
+  Future<dynamic> postListRequest(String endpoint, {required List<Map<String, dynamic>> body}) async {
+  final response = await http.post(
+    Uri.parse('$baseUrl/$endpoint'),
+    headers: <String, String>{
+      "Content-Type": "application/json; charset=UTF-8",
+    },
+    body: jsonEncode(body),
+  );
+  return _processResponse(response);
+}
+
+
   Future<dynamic> putRequest(String endpoint, Map<String, dynamic> body) async {
     final response = await http.put(
       Uri.parse('$baseUrl/$endpoint'),

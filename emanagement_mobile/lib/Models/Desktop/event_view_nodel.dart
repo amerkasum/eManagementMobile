@@ -23,8 +23,8 @@ class EventViewModel {
       title: json['title'],
       subtitle: json['subtitle'],
       description: json['description'],
-      date: DateTime.parse(json['date']),
       createdById: json['createdById'],
+      date: DateTime.parse(json['date']),
       imageUrl: json['imageUrl'], 
       eventStatusId: json['eventStatusId'],
     );
@@ -35,8 +35,8 @@ class EventViewModel {
       'title': title,
       'subtitle': subtitle,
       'description': description,
-      'date': date?.toIso8601String(),
       'createdById': createdById,
+      'date': date?.toIso8601String(),
       'imageUrl': imageUrl, 
       'eventStatusId': eventStatusId,
     };

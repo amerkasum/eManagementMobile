@@ -33,17 +33,22 @@ class _TaskDetailsState extends State<TaskDetails> {
   Future<void> _changeStatus(int taskId, String statusName) async {
     try {
       await taskService.changeStatus(taskId, statusName);
+
+      if (!mounted) return;
+
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Task status updated successfully')),
+        const SnackBar(content: Text('Task status updated successfully'), backgroundColor: Colors.green),
       );
       if (statusName == 'FINISHED') {
-        setState(() {}); // Refresh the page if needed
+        setState(() {}); 
       } else {
-        Navigator.pop(context); // Optionally go back after finishing the task
+        setState(() {});
       }
+
+      Navigator.pop(context, true); 
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Failed to update task status: $e')),
+        SnackBar(content: Text('Failed to update task status: $e'), backgroundColor: Colors.red,),
       );
     }
   }

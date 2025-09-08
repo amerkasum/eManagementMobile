@@ -46,20 +46,48 @@ class _WorkingAbsenceFormPageState extends State<WorkingAbsenceFormPage> {
   }
 
   Future<void> _submitForm() async {
-    if (_formKey.currentState?.validate() ?? false) {
-      _formKey.currentState?.save();
+  if (_formKey.currentState?.validate() ?? false) {
+    _formKey.currentState?.save();
 
-      _workingAbsence.userId = UserSession().userId ?? 0;
+    _workingAbsence.userId = UserSession().userId ?? 0;
 
+    try {
       await workingAbsenceService.createWorkingAbsence(_workingAbsence);
-      
+
+      if (!mounted) return;
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Working absence created successfully'),
+          backgroundColor: Colors.green,
+          duration: Duration(seconds: 2),
+        ),
+      );
+
+      // Wait for the snackbar to show before navigating
+      await Future.delayed(const Duration(seconds: 2));
+
+      if (!mounted) return;
+
       Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(builder: (context) => const WorkingAbsencePage()),
-        (route) => false, 
+        (route) => false,
+      );
+    } catch (e) {
+      if (!mounted) return;
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Failed to create working absence: $e'),
+          backgroundColor: Colors.red,
+          duration: const Duration(seconds: 2),
+        ),
       );
     }
   }
+}
+
 
   @override
   void initState() {

@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:emanagement_mobile/Models/Desktop/event_view_nodel.dart';
 import 'package:emanagement_mobile/Models/user_session.dart';
@@ -71,28 +72,58 @@ class _EventFormState extends State<EventForm> {
     }
   }
 
-  Future<void> _submitForm() async {
-    if (_formKey.currentState?.validate() ?? false) {
-      _formKey.currentState?.save();
+// _submitForm
+Future<void> _submitForm() async {
+  if (!(_formKey.currentState?.validate() ?? false)) return;
 
-      eventViewModel.createdById = user_session.UserSession().userId;
+  _formKey.currentState?.save();
+  eventViewModel.createdById = user_session.UserSession().userId;
 
-      if (_profileImage != null) {
-        final imagePath = 'assets/event_images/${DateTime.now().millisecondsSinceEpoch}.jpg';
-        await _profileImage!.copy(imagePath);
+  if (_profileImage != null) {
+    final imagePath = 'assets/event_images/${DateTime.now().millisecondsSinceEpoch}.jpg';
+    await _profileImage!.copy(imagePath);
+    eventViewModel.imageUrl = imagePath;
+  }
 
-        eventViewModel.imageUrl = imagePath;
-      }
+  try {
+    await eventService.createEvent(eventViewModel);
 
-      await eventService.createEvent(eventViewModel);
+    if (!context.mounted) return;
 
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Event created successfully.'),
+        backgroundColor: Colors.green,
+        duration: Duration(seconds: 2),
+      ),
+    );
+
+    await Future.delayed(const Duration(seconds: 1));
+    if (context.mounted) {
       Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(builder: (context) => const EventsPage()),
         (route) => false,
       );
     }
+  } catch (e) {
+    if (!context.mounted) return;
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Something went wrong.'),
+        backgroundColor: Colors.red,
+        duration: Duration(seconds: 2),
+      ),
+    );
   }
+}
+
+
+
+
+
+
 
   @override
   Widget build(BuildContext context) {

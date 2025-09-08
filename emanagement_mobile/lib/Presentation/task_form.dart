@@ -139,7 +139,7 @@ class _TaskFormState extends State<TaskForm> {
 
     if (response.statusCode == 200) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Task submitted successfully')),
+        SnackBar(content: Text('Task submitted successfully'), backgroundColor: Colors.green),
       );
       Navigator.pushAndRemoveUntil(
         context,
@@ -149,7 +149,7 @@ class _TaskFormState extends State<TaskForm> {
     } else {
       // Error occurred
       ScaffoldMessenger.of(context).showSnackBar(
-         SnackBar(content: Text('Failed to submit task')),
+         SnackBar(content: Text('Failed to submit task'), backgroundColor: Colors.red,),
       );
     }
   }

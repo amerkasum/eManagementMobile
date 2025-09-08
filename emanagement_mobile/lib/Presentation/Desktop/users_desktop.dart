@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:emanagement_mobile/Components/bottom_navigation_bar.dart';
 import 'package:emanagement_mobile/Models/Desktop/users_desktop_dto.dart';
+import 'package:emanagement_mobile/Presentation/Desktop/edit_user_form.dart';
 import 'package:emanagement_mobile/Presentation/Desktop/user_form.dart';
 import 'package:emanagement_mobile/Presentation/profile.dart';
 import 'package:emanagement_mobile/Services/user_service.dart';
@@ -406,6 +407,18 @@ class _UsersDesktopWidgetState extends State<UsersDesktopWidget> {
                                         color: Colors.green,
                                       ),
                                       IconButton(
+                                        icon: const Icon(Icons.edit),
+                                        onPressed: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) => EditUserForm(userId: user.id), 
+                                            ),
+                                          );
+                                        },
+                                        color: Colors.blue,
+                                      ),
+                                      IconButton(
                                         icon: const Icon(Icons.delete),
                                         onPressed: () {
                                           Navigator.of(context).pop();
@@ -413,6 +426,7 @@ class _UsersDesktopWidgetState extends State<UsersDesktopWidget> {
                                         },
                                         color: Colors.red,
                                       ),
+                                      
                                     ],
                                   ),
                                 ),

@@ -4,7 +4,7 @@ import 'dart:io' show Platform;
 import 'package:emanagement_mobile/Components/bottom_navigation_bar.dart';
 import 'package:emanagement_mobile/Components/top_app_bar.dart';
 import 'package:emanagement_mobile/Models/user_profile_dto.dart';
-import 'package:emanagement_mobile/Presentation/working_hours.dart';
+import 'package:emanagement_mobile/Presentation/working_days_form.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -44,7 +44,6 @@ class _ProfileDesktopPageWidgetState extends State<ProfileDesktopPage> {
   @override
   Widget build(BuildContext context) {
     final isDesktop = !Platform.isAndroid && (Platform.isWindows || Platform.isMacOS || Platform.isLinux);
-
     return Scaffold(
       appBar: eManagementTopAppBarPage(title: "Profile"),
       bottomNavigationBar: eManagementBottomNavigationBar(),
@@ -201,25 +200,36 @@ class _ProfileDesktopPageWidgetState extends State<ProfileDesktopPage> {
                                   onPressed: () {
                                     setState(() {
                                       showAbout = !showAbout;
-                                      showWorkingDays = false; // Hide working days when About is shown
+                                      showWorkingDays = false;
                                     });
                                   },
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: Colors.black,
+                                    foregroundColor: Colors.white, // Text color
+                                    padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12), // Slightly wider, same height
+                                  ),
                                   child: const Text('About'),
                                 ),
                                 const SizedBox(width: 10),
                                 ElevatedButton(
-                                  onPressed: () {
-                                    // Navigate to WorkingHoursPage when button is clicked
-                                    Navigator.of(context).push(
-                                      MaterialPageRoute(
-                                        builder: (context) => WorkingHoursPage(), // Navigate to the WorkingHoursPage
-                                      ),
-                                    );
-                                  },
-                                  child: const Text('Working Days'),
+                                onPressed: () {
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (context) => WorkingDaysPage(userId: userProfile.id),
+                                    ),
+                                  );
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.black,
+                                  foregroundColor: Colors.white,
+                                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
                                 ),
+                                child: const Text('Working Days'),
+                              ),
+
                               ],
                             ),
+
                             const SizedBox(height: 30),
 
                             // Conditional Rendering for About Section

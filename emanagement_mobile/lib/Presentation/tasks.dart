@@ -193,13 +193,17 @@ class _TasksWidgetState extends State<TasksPage> {
               itemBuilder: (context, index) {
                 final task = filteredData[index];
                 return GestureDetector(
-                  onTap: () {
-                    Navigator.push(
+                  onTap: () async {
+                    final updated = await Navigator.push<bool>(
                       context,
                       MaterialPageRoute(
                         builder: (context) => TaskDetails(taskId: task.id),
                       ),
                     );
+                  
+                    if (updated == true) {
+                      fetchTasks(); // refresh task list on return
+                    }
                   },
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),

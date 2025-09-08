@@ -87,24 +87,50 @@ class _UserFormState extends State<UserForm> {
   }
 
   Future<void> _submitForm() async {
-    if (_formKey.currentState?.validate() ?? false) {
-      _formKey.currentState?.save();
+  if (!(_formKey.currentState?.validate() ?? false)) return;
 
-      if (_profileImage != null) {
-        final imagePath = 'assets/profile_images/${DateTime.now().millisecondsSinceEpoch}.jpg';
-        await _profileImage!.copy(imagePath);
-        
-        userViewModel.imageUrl = imagePath;
-      }
-      await userService.createUser(userViewModel);
-      
+  _formKey.currentState?.save();
+
+  if (_profileImage != null) {
+    final imagePath = 'assets/profile_images/${DateTime.now().millisecondsSinceEpoch}.jpg';
+    await _profileImage!.copy(imagePath);
+    userViewModel.imageUrl = imagePath;
+  }
+
+  try {
+    await userService.createUser(userViewModel);
+
+    if (!context.mounted) return;
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('User created successfully.'),
+        backgroundColor: Colors.green,
+        duration: Duration(seconds: 2),
+      ),
+    );
+
+    await Future.delayed(const Duration(seconds: 1));
+    if (context.mounted) {
       Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(builder: (context) => const UsersDesktopWidget()),
-        (route) => false, 
+        (route) => false,
       );
     }
+  } catch (e) {
+    if (!context.mounted) return;
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Something went wrong.'),
+        backgroundColor: Colors.red,
+        duration: Duration(seconds: 2),
+      ),
+    );
   }
+}
+
 
   @override
   Widget build(BuildContext context) {

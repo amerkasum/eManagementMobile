@@ -28,13 +28,13 @@ class _WorkingAbsenceWidgetState extends State<WorkingAbsencePage> {
     try {
       await workingAbsenceService.changeStatus(workingAbsenceId, statusName);
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Task status updated successfully')),
+        const SnackBar(content: Text('Task status updated successfully'), backgroundColor: Colors.green),
       );
       // Refresh the page by re-fetching the data
       await getWorkingAbsences();
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Failed to update task status: $e')),
+        SnackBar(content: Text('Failed to update task status: $e'), backgroundColor: Colors.red),
       );
     }
   }

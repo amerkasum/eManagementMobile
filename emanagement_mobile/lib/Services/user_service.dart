@@ -1,6 +1,8 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:emanagement_mobile/Context/api_handler.dart';
+import 'package:emanagement_mobile/Models/Desktop/edit_user_view_model.dart';
 import 'package:emanagement_mobile/Models/Desktop/users_desktop_dto.dart';
 import 'package:emanagement_mobile/Models/Helpers/user_basic_dto.dart';
 import 'package:emanagement_mobile/Models/user_session.dart';
@@ -12,7 +14,7 @@ import 'package:flutter/material.dart';
 final isDesktop = !Platform.isAndroid && (Platform.isWindows || Platform.isMacOS || Platform.isLinux);
 class UserService {
   
-  final ApiHandler apiHandler = ApiHandler(baseUrl: isDesktop ? 'http://localhost:5001' : 'http://10.0.2.2:5001');
+  final ApiHandler apiHandler = ApiHandler(baseUrl: isDesktop ? 'http://localhost:5001' : 'https://10.0.2.2:5001');
 
   Future<List<UserDto>> getAllUsers() async {
     final response = await apiHandler.getRequest('api/Users/GetUsers');
@@ -79,6 +81,27 @@ class UserService {
     }
   }
 
+  Future<void> editUser(EditUserViewModel user) async {
+    try {
+     
+      final userJson = user.toJson(); 
+  
+      final response = await apiHandler.postRequest(
+        'api/Users/EditUser',
+        body: userJson, 
+      );
+  
+      if (response.statusCode == 201) {
+
+        print("User updated successfully");
+      } else {
+        print("Failed to update user: ${response.body}");
+      }
+    } catch (e) {
+      print("An error occurred while updating the user: $e");
+    }
+  }
+
   Future<UserBasicDto> getRecommend(int userId) async {
     try {
       final response = await apiHandler.getRequest('api/Users/GetRecommendedUser?userId=$userId');
@@ -91,4 +114,10 @@ class UserService {
       throw Exception('Failed to load recommended user: $e');
     }
   }
+
+  Future<EditUserViewModel> getUserById(int userId) async {
+    final response = await apiHandler.getRequest('api/Users/GetUserToEdit?userId=$userId');
+    return EditUserViewModel.fromJson(response);
+  }
+
 }

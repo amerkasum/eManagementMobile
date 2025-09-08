@@ -8,7 +8,7 @@ import 'package:emanagement_mobile/Models/working_absence_view_model.dart';
 
 final isDesktop = !Platform.isAndroid && (Platform.isWindows || Platform.isMacOS || Platform.isLinux);
 class WorkingAbsenceService {
-  final ApiHandler apiHandler = ApiHandler(baseUrl: isDesktop ? 'http://localhost:5001' : 'http://10.0.2.2:5001');
+  final ApiHandler apiHandler = ApiHandler(baseUrl: isDesktop ? 'http://localhost:5001' : 'https://10.0.2.2:5001');
 
   Future<List<WorkingAbsenceBasicDto>> getWorkingAbsences() async {
     final response = await apiHandler.getRequest('api/WorkingAbsence/GetWorkingAbsences?userId=${UserSession().userId}');

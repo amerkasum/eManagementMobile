@@ -1,15 +1,15 @@
 import 'dart:io';
 
 import 'package:emanagement_mobile/Models/Helpers/select_list_helper.dart';
-import 'package:http/http.dart' as http;
+import 'package:http/http.dart' as https;
 import 'dart:convert';
 
 final isDesktop = !Platform.isAndroid && (Platform.isWindows || Platform.isMacOS || Platform.isLinux);
 class ApiService {
-  final String apiUrl = isDesktop ? "http://localhost:5001" : "http://10.0.2.2:5001"; // Replace with your actual API URL
+  final String apiUrl = isDesktop ? "http://localhost:5001" : "https://10.0.2.2:5001"; // Replace with your actual API URL
 
   Future<List<SelectListHelper>> fetchContractTypes() async {
-    final response = await http.get(Uri.parse('$apiUrl/api/ContractType/GetAll'));
+    final response = await https.get(Uri.parse('$apiUrl/api/ContractType/GetAll'));
 
     if (response.statusCode == 200) {
       List jsonResponse = json.decode(response.body);
@@ -20,7 +20,7 @@ class ApiService {
   }
 
   Future<List<SelectListHelper>> fetchRoles() async {
-    final response = await http.get(Uri.parse('$apiUrl/api/Roles/GetAll'));
+    final response = await https.get(Uri.parse('$apiUrl/api/Roles/GetAll'));
 
     if (response.statusCode == 200) {
       List jsonResponse = json.decode(response.body);
@@ -31,7 +31,7 @@ class ApiService {
   }
 
   Future<List<SelectListHelper>> fetchCities() async {
-    final response = await http.get(Uri.parse('$apiUrl/api/Cities/GetAll'));
+    final response = await https.get(Uri.parse('$apiUrl/api/Cities/GetAll'));
 
     if (response.statusCode == 200) {
       List jsonResponse = json.decode(response.body);
@@ -42,7 +42,7 @@ class ApiService {
   }
 
   Future<List<SelectListHelper>> fetchShifts() async {
-    final response = await http.get(Uri.parse('$apiUrl/api/Shift/GetAll'));
+    final response = await https.get(Uri.parse('$apiUrl/api/Shift/GetAll'));
 
     if (response.statusCode == 200) {
       List jsonResponse = json.decode(response.body);
@@ -53,7 +53,7 @@ class ApiService {
   }
 
   Future<List<SelectListHelper>> fetchPositions() async {
-    final response = await http.get(Uri.parse('$apiUrl/api/Position/GetAll'));
+    final response = await https.get(Uri.parse('$apiUrl/api/Position/GetAll'));
 
     if (response.statusCode == 200) {
       List jsonResponse = json.decode(response.body);
@@ -64,7 +64,7 @@ class ApiService {
   }
 
   Future<List<SelectListHelper>> fetchUsers() async {
-    final response = await http.get(Uri.parse('$apiUrl/api/Users/GetAll'));
+    final response = await https.get(Uri.parse('$apiUrl/api/Users/GetAll'));
 
     if (response.statusCode == 200) {
       List jsonResponse = json.decode(response.body);
@@ -75,7 +75,7 @@ class ApiService {
   }
 
   Future<List<SelectListHelper>> fetchTaskPriosities() async {
-    final response = await http.get(Uri.parse('$apiUrl/api/TaskPriorities/GetAll'));
+    final response = await https.get(Uri.parse('$apiUrl/api/TaskPriorities/GetAll'));
 
     if (response.statusCode == 200) {
       List jsonResponse = json.decode(response.body);
@@ -86,7 +86,7 @@ class ApiService {
   }
 
   Future<List<SelectListHelper>> fetchEventStatuses() async {
-    final response = await http.get(Uri.parse('$apiUrl/api/EventStatuses/GetAll'));
+    final response = await https.get(Uri.parse('$apiUrl/api/EventStatuses/GetAll'));
 
     if (response.statusCode == 200) {
       List jsonResponse = json.decode(response.body);
@@ -97,7 +97,7 @@ class ApiService {
   }
 
   Future<List<SelectListHelper>> fetchAbsenceTypes() async {
-    final response = await http.get(Uri.parse('$apiUrl/api/AbsenceType/GetAll'));
+    final response = await https.get(Uri.parse('$apiUrl/api/AbsenceType/GetAll'));
 
     if (response.statusCode == 200) {
       List jsonResponse = json.decode(response.body);

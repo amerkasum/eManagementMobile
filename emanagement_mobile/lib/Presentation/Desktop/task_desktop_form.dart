@@ -38,12 +38,16 @@ class _MultiSelectDialogState extends State<MultiSelectDialog> {
   Future<void> fetchRecommendedUser(int userId) async {
     try {
       final recommendedUser = await userService.getRecommend(userId);
+
+      if (!mounted) return;
+
       setState(() {
         _recommendedUser = recommendedUser; 
         isChanged = _recommendedUser != null; 
       });
     } catch (e) {
       print('Failed to fetch recommended user: $e');
+       if (!mounted) return;
       setState(() {
         _recommendedUser = null; 
         isChanged = false; 
@@ -187,7 +191,7 @@ class _TaskFormState extends State<TaskDesktopForm> {
     if (response.statusCode == 200) {
       // Successfully submitted
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Task submitted successfully')),
+        SnackBar(content: Text('Task submitted successfully'), backgroundColor: Colors.green,),
       );
       Navigator.pushAndRemoveUntil(
         context,
@@ -197,7 +201,7 @@ class _TaskFormState extends State<TaskDesktopForm> {
     } else {
       // Error occurred
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Failed to submit task')),
+        SnackBar(content: Text('Failed to submit task'), backgroundColor: Colors.red),
       );
     }
   }
