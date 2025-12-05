@@ -127,7 +127,7 @@ class _TaskFormState extends State<TaskForm> {
  
   Future<void> _submitForm() async {
     final isDesktop = !Platform.isAndroid && (Platform.isWindows || Platform.isMacOS || Platform.isLinux);
-    final url = isDesktop ? 'http://localhost:5001/api/Tasks/Add' : 'http://10.0.2.2:5001/api/Tasks/Add';
+    final url = isDesktop ? 'https://localhost:5001/api/Tasks/Add' : 'http://10.0.2.2:5001/api/Tasks/Add';
 
     final response = await http.post(
       Uri.parse(url),

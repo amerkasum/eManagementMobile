@@ -6,7 +6,7 @@ import 'dart:convert';
 
 final isDesktop = !Platform.isAndroid && (Platform.isWindows || Platform.isMacOS || Platform.isLinux);
 class ApiService {
-  final String apiUrl = isDesktop ? "http://localhost:5001" : "https://10.0.2.2:5001"; // Replace with your actual API URL
+  final String apiUrl = isDesktop ? "https://localhost:5001" : "https://10.0.2.2:5001"; // Replace with your actual API URL
 
   Future<List<SelectListHelper>> fetchContractTypes() async {
     final response = await https.get(Uri.parse('$apiUrl/api/ContractType/GetAll'));

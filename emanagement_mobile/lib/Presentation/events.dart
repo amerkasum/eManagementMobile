@@ -27,7 +27,7 @@ class _EventsWidgetState extends State<EventsPage> {
     final isDesktop = !Platform.isAndroid && (Platform.isWindows || Platform.isMacOS || Platform.isLinux);
 
     final response = await http.get(
-      isDesktop ? Uri.parse('http://localhost:5001/api/Events/GetAll') : Uri.parse('http://10.0.2.2:5001/api/Events/GetAll'),
+      isDesktop ? Uri.parse('https://localhost:5001/api/Events/GetAll') : Uri.parse('http://10.0.2.2:5001/api/Events/GetAll'),
       headers: <String, String>{
         "Content-type": "application/json; charset=UTF-8"
       },

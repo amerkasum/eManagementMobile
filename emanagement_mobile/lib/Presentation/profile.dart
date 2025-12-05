@@ -28,7 +28,7 @@ class _ProfilePageWidgetState extends State<ProfilePage> {
 
   Future<UserProfileDto> getUserProfileDto(int userId) async {
     final isDesktop = !Platform.isAndroid && (Platform.isWindows || Platform.isMacOS || Platform.isLinux);
-    final response = isDesktop ? await http.get(Uri.parse('http://localhost:5001/api/Users/GetUserProfile?userId=$userId'))
+    final response = isDesktop ? await http.get(Uri.parse('https://localhost:5001/api/Users/GetUserProfile?userId=$userId'))
          : await http.get(Uri.parse('http://10.0.2.2:5001/api/Users/GetUserProfile?userId=$userId'));
 
     if (response.statusCode == 200) {

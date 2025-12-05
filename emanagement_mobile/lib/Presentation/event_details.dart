@@ -26,7 +26,7 @@ class _EventDetailsPageWidgetState extends State<EventDetailsPageWidget> {
 
   Future<EventDetailsDto> fetchEventDetails(int eventId) async {
     final isDesktop = !Platform.isAndroid && (Platform.isWindows || Platform.isMacOS || Platform.isLinux);
-    final response = isDesktop ? await http.get(Uri.parse('http://localhost:5001/api/Events/Details?eventId=$eventId'))
+    final response = isDesktop ? await http.get(Uri.parse('https://localhost:5001/api/Events/Details?eventId=$eventId'))
     : await http.get(Uri.parse('http://10.0.2.2:5001/api/Events/Details?eventId=$eventId'));
 
     if (response.statusCode == 200) {
@@ -81,6 +81,9 @@ class _EventDetailsPageWidgetState extends State<EventDetailsPageWidget> {
                             width: double.infinity,
                             height: 200,
                             fit: BoxFit.cover,
+                            errorBuilder: (context, error, stackTrace) {
+                              return Image.asset("assets/default.jpg");
+                            },
                           ),
                         ),
                         Padding(

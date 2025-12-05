@@ -8,13 +8,14 @@ import 'package:emanagement_mobile/Models/Helpers/user_basic_dto.dart';
 import 'package:emanagement_mobile/Models/user_session.dart';
 import 'package:emanagement_mobile/Models/Desktop/user_view_model.dart';
 import 'package:emanagement_mobile/Models/users_dto.dart';
+import 'package:emanagement_mobile/Presentation/Desktop/events_desktop.dart';
 import 'package:emanagement_mobile/Presentation/events.dart';
 import 'package:flutter/material.dart';
 
 final isDesktop = !Platform.isAndroid && (Platform.isWindows || Platform.isMacOS || Platform.isLinux);
 class UserService {
   
-  final ApiHandler apiHandler = ApiHandler(baseUrl: isDesktop ? 'http://localhost:5001' : 'https://10.0.2.2:5001');
+  final ApiHandler apiHandler = ApiHandler(baseUrl: isDesktop ? 'https://localhost:5001' : 'https://10.0.2.2:5001');
 
   Future<List<UserDto>> getAllUsers() async {
     final response = await apiHandler.getRequest('api/Users/GetUsers');
@@ -49,6 +50,12 @@ class UserService {
 
 
       // Navigate to EventsPage
+      isDesktop ? 
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const EventsDesktopPage()),
+      ) 
+      : 
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => const EventsPage()),

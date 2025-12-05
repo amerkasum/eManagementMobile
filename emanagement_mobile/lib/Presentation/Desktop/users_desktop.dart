@@ -53,7 +53,7 @@ class _UsersDesktopWidgetState extends State<UsersDesktopWidget> {
 
   Future<List<UserDesktopDto>> fetchUsers() async {
     final isDesktop = !Platform.isAndroid && (Platform.isWindows || Platform.isMacOS || Platform.isLinux);
-    final response = await http.get(Uri.parse(isDesktop ? 'http://localhost:5001/api/Users/GetUsersDesktop' : 'http://10.0.2.2:5001/api/Users/GetUsersDesktop'));
+    final response = await http.get(Uri.parse(isDesktop ? 'https://localhost:5001/api/Users/GetUsersDesktop' : 'http://10.0.2.2:5001/api/Users/GetUsersDesktop'));
 
     if (response.statusCode == 200) {
       List<dynamic> jsonResponse = json.decode(response.body);
