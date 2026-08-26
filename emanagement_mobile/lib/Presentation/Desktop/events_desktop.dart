@@ -9,6 +9,11 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/foundation.dart' show kIsWeb;
 
+import '../../Context/api_handler.dart';
+import '../../Services/Helpers/app_config.dart';
+
+final ApiHandler apiHandler = ApiHandler(baseUrl: AppConfig.apiUrl);
+
 class EventsDesktopPage extends StatefulWidget {
   const EventsDesktopPage({super.key});
 
@@ -23,11 +28,17 @@ class _EventsDesktopWidgetState extends State<EventsDesktopPage> {
   final List<String> eventStatusNames = ['All', 'UPCOMING', 'FINISHED', 'ONGOING', 'CANCELLED'];
 
   Future<List<EventsDto>> getAll() async {
-    final isDesktop = !Platform.isAndroid && (Platform.isWindows || Platform.isMacOS || Platform.isLinux);
-    final response = await http.get(Uri.parse(isDesktop ? 'http://localhost:5001/api/Events/GetAll' : 'http://10.0.2.2:5001/api/Events/GetAll'),headers: <String, String>{
+    final isDesktop = !kIsWeb && (Platform.isWindows || Platform.isMacOS || Platform.isLinux);
+    //    final isDesktop = !Platform.isAndroid && (Platform.isWindows || Platform.isMacOS || Platform.isLinux);
+    final response = await http.get(Uri.parse(apiHandler.baseUrl + '/api/Events/GetAll'),headers: <String, String>{
         "Content-type": "application/json; charset=UTF-8"
       },
     );
+
+    /*final response = await http.get(Uri.parse(isDesktop ? 'http://localhost:5001/api/Events/GetAll' : 'http://10.0.2.2:5001/api/Events/GetAll'),headers: <String, String>{
+        "Content-type": "application/json; charset=UTF-8"
+      },
+    );*/
 
     if (response.statusCode == 200) {
       final List<dynamic> jsonResponse = jsonDecode(response.body);
@@ -74,7 +85,7 @@ class _EventsDesktopWidgetState extends State<EventsDesktopPage> {
 
   @override
   Widget build(BuildContext context) {
-    final isDesktop = !Platform.isAndroid && (Platform.isWindows || Platform.isMacOS || Platform.isLinux);
+    final isDesktop = !kIsWeb && (Platform.isWindows || Platform.isMacOS || Platform.isLinux);
     return Scaffold(
       appBar: eManagementTopAppBarPage(title: "Events"),
       bottomNavigationBar: eManagementBottomNavigationBar(),

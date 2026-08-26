@@ -6,10 +6,15 @@ import 'package:emanagement_mobile/Presentation/Desktop/edit_user_form.dart';
 import 'package:emanagement_mobile/Presentation/Desktop/user_form.dart';
 import 'package:emanagement_mobile/Presentation/profile.dart';
 import 'package:emanagement_mobile/Services/user_service.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 import '../../Components/top_app_bar.dart';
+import '../../Context/api_handler.dart';
+import '../../Services/Helpers/app_config.dart';
+
+final ApiHandler apiHandler = ApiHandler(baseUrl: AppConfig.apiUrl);
 
 class UsersDesktopWidget extends StatefulWidget {
   const UsersDesktopWidget({super.key});
@@ -52,8 +57,9 @@ class _UsersDesktopWidgetState extends State<UsersDesktopWidget> {
   }
 
   Future<List<UserDesktopDto>> fetchUsers() async {
-    final isDesktop = !Platform.isAndroid && (Platform.isWindows || Platform.isMacOS || Platform.isLinux);
-    final response = await http.get(Uri.parse(isDesktop ? 'http://localhost:5001/api/Users/GetUsersDesktop' : 'http://10.0.2.2:5001/api/Users/GetUsersDesktop'));
+    final isDesktop = !kIsWeb && (Platform.isWindows || Platform.isMacOS || Platform.isLinux);
+    //final response = await http.get(Uri.parse(isDesktop ? 'http://localhost:5001/api/Users/GetUsersDesktop' : 'http://10.0.2.2:5001/api/Users/GetUsersDesktop'));
+    final response = await http.get(Uri.parse(apiHandler.baseUrl + '/api/Users/GetUsersDesktop'));
 
     if (response.statusCode == 200) {
       List<dynamic> jsonResponse = json.decode(response.body);

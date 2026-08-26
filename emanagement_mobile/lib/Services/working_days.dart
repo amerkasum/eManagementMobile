@@ -5,11 +5,11 @@ import 'package:emanagement_mobile/Context/api_handler.dart';
 import 'package:emanagement_mobile/Models/Desktop/event_view_nodel.dart';
 import 'package:emanagement_mobile/Models/Helpers/working_days_basic_dto.dart';
 import 'package:emanagement_mobile/Models/Helpers/working_days_dto.dart';
+import 'package:emanagement_mobile/Services/Helpers/app_config.dart';
 
-final isDesktop = !Platform.isAndroid && (Platform.isWindows || Platform.isMacOS || Platform.isLinux);
 class WorkingDaysService {
   
-  final ApiHandler apiHandler = ApiHandler(baseUrl: isDesktop ? 'http://localhost:5001' : 'https://10.0.2.2:5001');
+  final ApiHandler apiHandler = ApiHandler(baseUrl: AppConfig.apiUrl);
 
   Future<WorkingDaysDto> getWorkingDaysByUserId(int userId) async {
     final response = await apiHandler.getRequest('api/WorkingDays/GetByUserId?userId=$userId');

@@ -4,11 +4,11 @@ import 'package:emanagement_mobile/Context/api_handler.dart';
 import 'package:emanagement_mobile/Models/task_details.dart';
 import 'package:emanagement_mobile/Models/tasks_dto.dart';
 import 'package:emanagement_mobile/Models/user_session.dart';
-  
-final isDesktop = !Platform.isAndroid && (Platform.isWindows || Platform.isMacOS || Platform.isLinux);
 
+import 'Helpers/app_config.dart';
+  
 class TaskService {
-  final ApiHandler apiHandler = isDesktop ? ApiHandler(baseUrl: 'http://localhost:5001') : ApiHandler(baseUrl: 'https://10.0.2.2:5001');
+  final ApiHandler apiHandler = ApiHandler(baseUrl: AppConfig.apiUrl);
 
   Future<List<TaskDto>> getAll() async {
     try {

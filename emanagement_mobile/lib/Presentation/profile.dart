@@ -8,6 +8,11 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
+import '../Context/api_handler.dart';
+import '../Services/Helpers/app_config.dart';
+
+final ApiHandler apiHandler = ApiHandler(baseUrl: AppConfig.apiUrl);
+
 class ProfilePage extends StatefulWidget {
   final int userId;
 
@@ -27,9 +32,13 @@ class _ProfilePageWidgetState extends State<ProfilePage> {
   }
 
   Future<UserProfileDto> getUserProfileDto(int userId) async {
-    final isDesktop = !Platform.isAndroid && (Platform.isWindows || Platform.isMacOS || Platform.isLinux);
-    final response = isDesktop ? await http.get(Uri.parse('http://localhost:5001/api/Users/GetUserProfile?userId=$userId'))
-         : await http.get(Uri.parse('http://10.0.2.2:5001/api/Users/GetUserProfile?userId=$userId'));
+    final isDesktop = !kIsWeb && (Platform.isWindows || Platform.isMacOS || Platform.isLinux);
+    //final isDesktop = !Platform.isAndroid && (Platform.isWindows || Platform.isMacOS || Platform.isLinux);
+
+    //final response = isDesktop ? await http.get(Uri.parse('http://localhost:5001/api/Users/GetUserProfile?userId=$userId'))
+    //     : await http.get(Uri.parse('http://10.0.2.2:5001/api/Users/GetUserProfile?userId=$userId'));
+
+    final response = await http.get(Uri.parse(apiHandler.baseUrl + '/api/Users/GetUserProfile?userId=$userId'));
 
     if (response.statusCode == 200) {
       return UserProfileDto.fromJson(jsonDecode(response.body) as Map<String, dynamic>);
@@ -40,7 +49,8 @@ class _ProfilePageWidgetState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-    final isDesktop = !Platform.isAndroid && (Platform.isWindows || Platform.isMacOS || Platform.isLinux);
+    //final isDesktop = !Platform.isAndroid && (Platform.isWindows || Platform.isMacOS || Platform.isLinux);
+    final isDesktop = !kIsWeb && (Platform.isWindows || Platform.isMacOS || Platform.isLinux);
 
     return Scaffold(
       appBar: eManagementTopAppBarPage(title: "Profile"),

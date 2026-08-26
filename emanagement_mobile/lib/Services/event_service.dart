@@ -3,11 +3,11 @@ import 'dart:io';
 
 import 'package:emanagement_mobile/Context/api_handler.dart';
 import 'package:emanagement_mobile/Models/Desktop/event_view_nodel.dart';
+import 'Helpers/app_config.dart';
 
-final isDesktop = !Platform.isAndroid && (Platform.isWindows || Platform.isMacOS || Platform.isLinux);
 class EventService {
   
-  final ApiHandler apiHandler = ApiHandler(baseUrl: isDesktop ? 'http://localhost:5001' : 'https://10.0.2.2:5001');
+  final ApiHandler apiHandler = ApiHandler(baseUrl: AppConfig.apiUrl);
 
   // eventService.createEvent
 Future<void> createEvent(EventViewModel event) async {

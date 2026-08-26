@@ -1,17 +1,22 @@
 import 'dart:io';
-
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:emanagement_mobile/Components/bottom_navigation_bar.dart';
 import 'package:emanagement_mobile/Models/Helpers/select_list_helper.dart';
 import 'package:emanagement_mobile/Models/Helpers/user_basic_dto.dart';
 import 'package:emanagement_mobile/Presentation/tasks.dart';
 import 'package:emanagement_mobile/Services/Helpers/helpers.dart';
 import 'package:emanagement_mobile/Services/user_service.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:emanagement_mobile/Models/Desktop/task_view_model.dart';
 
 import '../../Components/top_app_bar.dart';
+import '../../Context/api_handler.dart';
+import '../../Services/Helpers/app_config.dart';
+
+final ApiHandler apiHandler = ApiHandler(baseUrl: AppConfig.apiUrl);
 
 class MultiSelectDialog extends StatefulWidget {
   final List<SelectListHelper> users;
@@ -177,8 +182,11 @@ class _TaskFormState extends State<TaskDesktopForm> {
  
 
   Future<void> _submitForm() async {
-    final isDesktop = !Platform.isAndroid && (Platform.isWindows || Platform.isMacOS || Platform.isLinux);
-    final url = isDesktop ? 'http://localhost:5001/api/Tasks/Add' : 'http://10.0.2.2:5001/api/Tasks/Add';
+    //    final isDesktop = !Platform.isAndroid && (Platform.isWindows || Platform.isMacOS || Platform.isLinux);
+    final isDesktop = !kIsWeb && (Platform.isWindows || Platform.isMacOS || Platform.isLinux);
+    //final url = isDesktop ? 'http://localhost:5001/api/Tasks/Add' : 'http://10.0.2.2:5001/api/Tasks/Add';
+    final url = apiHandler.baseUrl + '/api/Tasks/Add';
+
 
     final response = await http.post(
       Uri.parse(url),

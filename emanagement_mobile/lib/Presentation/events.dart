@@ -9,6 +9,10 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/foundation.dart' show kIsWeb;
 
 import '../Components/top_app_bar.dart';
+import '../Context/api_handler.dart';
+import '../Services/Helpers/app_config.dart';
+
+final ApiHandler apiHandler = ApiHandler(baseUrl: AppConfig.apiUrl);
 
 class EventsPage extends StatefulWidget {
   const EventsPage({super.key});
@@ -24,10 +28,13 @@ class _EventsWidgetState extends State<EventsPage> {
   final List<String> eventStatusNames = ['All', 'UPCOMING', 'FINISHED', 'ONGOING', 'CANCELLED'];
 
   Future<List<EventsDto>> getAll() async {
-    final isDesktop = !Platform.isAndroid && (Platform.isWindows || Platform.isMacOS || Platform.isLinux);
+    //final isDesktop = !Platform.isAndroid && (Platform.isWindows || Platform.isMacOS || Platform.isLinux);
+    final isDesktop = !kIsWeb && (Platform.isWindows || Platform.isMacOS || Platform.isLinux);
+
 
     final response = await http.get(
-      isDesktop ? Uri.parse('http://localhost:5001/api/Events/GetAll') : Uri.parse('http://10.0.2.2:5001/api/Events/GetAll'),
+      //isDesktop ? Uri.parse('http://localhost:5001/api/Events/GetAll') : Uri.parse('http://10.0.2.2:5001/api/Events/GetAll'),
+      Uri.parse(apiHandler.baseUrl + '/api/Events/GetAll'),
       headers: <String, String>{
         "Content-type": "application/json; charset=UTF-8"
       },
@@ -78,7 +85,9 @@ class _EventsWidgetState extends State<EventsPage> {
 
   @override
   Widget build(BuildContext context) {
-    final isDesktop = !Platform.isAndroid && (Platform.isWindows || Platform.isMacOS || Platform.isLinux);
+    //final isDesktop = !Platform.isAndroid && (Platform.isWindows || Platform.isMacOS || Platform.isLinux);
+    final isDesktop = !kIsWeb && (Platform.isWindows || Platform.isMacOS || Platform.isLinux);
+
     return Scaffold(
       appBar: eManagementTopAppBarPage(title: "Events"),
       bottomNavigationBar: eManagementBottomNavigationBar(),

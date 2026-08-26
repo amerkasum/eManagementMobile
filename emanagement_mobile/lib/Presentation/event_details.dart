@@ -1,13 +1,19 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:emanagement_mobile/Models/event_details_dto.dart';
+import 'package:emanagement_mobile/Services/Helpers/app_config.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 import '../Components/top_app_bar.dart';
+import '../Context/api_handler.dart';
+
+final ApiHandler apiHandler = ApiHandler(baseUrl: AppConfig.apiUrl);
 
 class EventDetailsPageWidget extends StatefulWidget {
   final int eventId;
+  
 
   const EventDetailsPageWidget({super.key, required this.eventId});
 
@@ -25,9 +31,12 @@ class _EventDetailsPageWidgetState extends State<EventDetailsPageWidget> {
   }
 
   Future<EventDetailsDto> fetchEventDetails(int eventId) async {
-    final isDesktop = !Platform.isAndroid && (Platform.isWindows || Platform.isMacOS || Platform.isLinux);
-    final response = isDesktop ? await http.get(Uri.parse('http://localhost:5001/api/Events/Details?eventId=$eventId'))
-    : await http.get(Uri.parse('http://10.0.2.2:5001/api/Events/Details?eventId=$eventId'));
+    //final isDesktop = !Platform.isAndroid && (Platform.isWindows || Platform.isMacOS || Platform.isLinux);
+    //final response = isDesktop ? await http.get(Uri.parse('http://localhost:5001/api/Events/Details?eventId=$eventId'))
+    //: await http.get(Uri.parse('http://10.0.2.2:5001/api/Events/Details?eventId=$eventId'));
+
+    final isDesktop = !kIsWeb && (Platform.isWindows || Platform.isMacOS || Platform.isLinux);
+    final response = await http.get(Uri.parse(apiHandler.baseUrl + '/api/Events/Details?eventId=$eventId'));
 
     if (response.statusCode == 200) {
       return EventDetailsDto.fromJson(json.decode(response.body));

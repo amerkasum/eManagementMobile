@@ -304,7 +304,7 @@ class _TasksWidgetState extends State<TasksPage> {
                 width: isDesktop ? 200 : constraints.maxWidth,
                 child: GestureDetector(
                   onTap: () {
-                    if (Platform.isAndroid || (!Platform.isWindows && !Platform.isLinux && !Platform.isMacOS)) {
+                    if (isDesktop) {
                       Navigator.push(
                         context,
                         MaterialPageRoute(builder: (context) => TaskForm()), 

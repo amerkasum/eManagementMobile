@@ -10,6 +10,11 @@ import 'package:emanagement_mobile/Components/top_app_bar.dart';
 import 'package:emanagement_mobile/Models/Helpers/select_list_helper.dart';
 import 'package:emanagement_mobile/Models/working_absence_view_model.dart';
 
+import '../Context/api_handler.dart';
+import '../Services/Helpers/app_config.dart';
+
+final ApiHandler apiHandler = ApiHandler(baseUrl: AppConfig.apiUrl);
+
 class WorkingAbsenceFormPage extends StatefulWidget {
   @override
   _WorkingAbsenceFormPageState createState() => _WorkingAbsenceFormPageState();

@@ -34,7 +34,7 @@ class eManagementTopAppBarPage extends StatelessWidget implements PreferredSizeW
           child: GestureDetector(
             onTap: () {
               // Check if it's a desktop platform
-              if (Platform.isAndroid || !Platform.isAndroid && (Platform.isWindows || Platform.isMacOS || Platform.isLinux)) {
+              if (!kIsWeb && (Platform.isWindows || Platform.isMacOS || Platform.isLinux)) {
                 // Navigate to ProfileDesktopPage if it's a desktop
                 Navigator.of(context).push(
                   MaterialPageRoute(

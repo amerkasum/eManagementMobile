@@ -11,10 +11,11 @@ import 'package:emanagement_mobile/Models/users_dto.dart';
 import 'package:emanagement_mobile/Presentation/events.dart';
 import 'package:flutter/material.dart';
 
-final isDesktop = !Platform.isAndroid && (Platform.isWindows || Platform.isMacOS || Platform.isLinux);
+import 'Helpers/app_config.dart';
+
 class UserService {
   
-  final ApiHandler apiHandler = ApiHandler(baseUrl: isDesktop ? 'http://localhost:5001' : 'https://10.0.2.2:5001');
+  final ApiHandler apiHandler = ApiHandler(baseUrl: AppConfig.apiUrl);
 
   Future<List<UserDto>> getAllUsers() async {
     final response = await apiHandler.getRequest('api/Users/GetUsers');
