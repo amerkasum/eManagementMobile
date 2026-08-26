@@ -8,8 +8,10 @@ import 'package:emanagement_mobile/Models/Helpers/user_basic_dto.dart';
 import 'package:emanagement_mobile/Models/user_session.dart';
 import 'package:emanagement_mobile/Models/Desktop/user_view_model.dart';
 import 'package:emanagement_mobile/Models/users_dto.dart';
+import 'package:emanagement_mobile/Presentation/Desktop/events_desktop.dart';
 import 'package:emanagement_mobile/Presentation/events.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 import 'Helpers/app_config.dart';
 
@@ -50,6 +52,14 @@ class UserService {
 
 
       // Navigate to EventsPage
+      final isDesktop = !kIsWeb && (Platform.isWindows || Platform.isMacOS || Platform.isLinux);
+
+      isDesktop ? 
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const EventsDesktopPage()),
+      ) 
+      : 
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => const EventsPage()),

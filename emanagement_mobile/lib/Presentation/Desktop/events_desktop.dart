@@ -5,6 +5,7 @@ import 'package:emanagement_mobile/Models/events_dto.dart';
 import 'package:emanagement_mobile/Components/bottom_navigation_bar.dart';
 import 'package:emanagement_mobile/Presentation/Desktop/event_form.dart';
 import 'package:emanagement_mobile/Presentation/event_details.dart';
+import 'package:emanagement_mobile/Services/event_service.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/foundation.dart' show kIsWeb;
@@ -26,6 +27,7 @@ class _EventsDesktopWidgetState extends State<EventsDesktopPage> {
   late List<EventsDto> filteredData = [];
   String selectedStatus = 'All';
   final List<String> eventStatusNames = ['All', 'UPCOMING', 'FINISHED', 'ONGOING', 'CANCELLED'];
+  EventService eventService = EventService();
 
   Future<List<EventsDto>> getAll() async {
     final isDesktop = !kIsWeb && (Platform.isWindows || Platform.isMacOS || Platform.isLinux);
@@ -75,6 +77,32 @@ class _EventsDesktopWidgetState extends State<EventsDesktopPage> {
         filteredData = data.where((event) => event.eventStatusName == selectedStatus).toList();
       }
     });
+  }
+
+  Future<void> deleteEvent(int id) async {
+    try {
+      final response = await eventService.deleteEvent(id);
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(response["message"]),
+          backgroundColor: response["success"] ? Colors.green : Colors.red,
+          duration: Duration(seconds: 2),
+        )
+      );
+      setState(() {
+        getAll();
+      });
+    }
+    catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(e.toString()),
+          backgroundColor:Colors.red,
+          duration: Duration(seconds: 2),
+        )
+      );
+    } 
   }
 
   @override
@@ -185,7 +213,7 @@ class _EventsDesktopWidgetState extends State<EventsDesktopPage> {
                           child: Image(
                             image: AssetImage(event.imageUrl), 
                             width: double.infinity,
-                            height: 250,
+                            height: 200,
                             fit: BoxFit.cover,
                             errorBuilder: (context, error, stackTrace) {
                               return Image.asset("assets/default.jpg");
@@ -228,6 +256,30 @@ class _EventsDesktopWidgetState extends State<EventsDesktopPage> {
                             ),
                           ),
                         ),
+                        Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: ElevatedButton(
+                                onPressed: () {
+                                  deleteEvent(event.id);
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.red,
+                                  foregroundColor: Colors.white,
+                                  padding: const EdgeInsets.symmetric(horizontal: 24),
+                                  elevation: 3,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                ),
+                                child: const Text(
+                                  'Delete',
+                                  style: TextStyle(
+                                    fontFamily: 'Readex Pro',
+                                    letterSpacing: 0,
+                                  ),
+                                ),
+                              ),
+                            ),
                       ],
                     ),
                   ),

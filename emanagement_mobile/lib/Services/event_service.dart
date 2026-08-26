@@ -10,19 +10,28 @@ class EventService {
   final ApiHandler apiHandler = ApiHandler(baseUrl: AppConfig.apiUrl);
 
   // eventService.createEvent
-Future<void> createEvent(EventViewModel event) async {
+ dynamic createEvent(EventViewModel event) async {
   try {
-      final eventJson = event.toJson();
   
       final response = await apiHandler.postRequest(
         'api/Events/Add',
-        body: eventJson,
+        body: event.toJson()
       );
-  
-      print('Response Body: ${response.body}');
+      print('Response Body: ${response}');
+
+      return response;
     } catch (e) {
-      print('Error creating event: $e');
+      throw Exception("Create event failed: $e");
     }
+  }
+
+  dynamic deleteEvent(int id) async {
+    final response = await apiHandler.deleteRequest(
+      ('api/Events/Delete?id=$id'),
+    );
+
+    final data = response;
+    return data;
   }
 
 }

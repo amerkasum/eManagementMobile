@@ -30,7 +30,7 @@ class eManagementBottomNavigationBarState
     if (kIsWeb) {
       // Web platform logic can be added here if needed
       _screens = [
-        const EventsPage(),
+        const EventsDesktopPage(),
         const UsersPage(),
         const TasksPage(),
         const WorkingAbsencePage(),

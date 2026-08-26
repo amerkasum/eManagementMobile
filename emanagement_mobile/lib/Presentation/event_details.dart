@@ -90,6 +90,9 @@ class _EventDetailsPageWidgetState extends State<EventDetailsPageWidget> {
                             width: double.infinity,
                             height: 200,
                             fit: BoxFit.cover,
+                            errorBuilder: (context, error, stackTrace) {
+                              return Image.asset("assets/default.jpg");
+                            },
                           ),
                         ),
                         Padding(

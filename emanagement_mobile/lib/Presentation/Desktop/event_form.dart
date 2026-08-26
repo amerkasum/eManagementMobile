@@ -86,14 +86,14 @@ Future<void> _submitForm() async {
   }
 
   try {
-    await eventService.createEvent(eventViewModel);
+    final response = await eventService.createEvent(eventViewModel);
 
     if (!context.mounted) return;
 
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Event created successfully.'),
-        backgroundColor: Colors.green,
+      SnackBar(
+        content: Text(response["message"]),
+        backgroundColor: response["success"] ? Colors.green : Colors.red,
         duration: Duration(seconds: 2),
       ),
     );
@@ -110,8 +110,8 @@ Future<void> _submitForm() async {
     if (!context.mounted) return;
 
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Something went wrong.'),
+      SnackBar(
+        content: Text(e.toString()),
         backgroundColor: Colors.red,
         duration: Duration(seconds: 2),
       ),
