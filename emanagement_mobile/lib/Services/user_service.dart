@@ -52,14 +52,6 @@ class UserService {
 
 
       // Navigate to EventsPage
-      final isDesktop = !kIsWeb && (Platform.isWindows || Platform.isMacOS || Platform.isLinux);
-
-      isDesktop ? 
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => const EventsDesktopPage()),
-      ) 
-      : 
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => const EventsPage()),
